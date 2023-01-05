@@ -35,7 +35,6 @@ export const Login = () => {
         callback={(res) => console.log(res)}
       />
       <GoogleLogin
-        // clientId='677821976500-b7mf7piiu9hp8n4bm7935g92hpi5g6b3.apps.googleusercontent.com'
         clientId={googleClientId}
         buttonText='Google login'
         onSuccess={onSuccess}

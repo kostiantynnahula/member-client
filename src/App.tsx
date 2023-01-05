@@ -1,12 +1,15 @@
-import { Login } from './components/Pages/Login/Login';
+import { privateRoutes } from './routes/private';
+import { publicRoutes } from './routes/public';
+import { RouterProvider } from 'react-router-dom';
 
-function App() {
+export const App = () => {
+
+  const routes = publicRoutes;
+  // const routes = privateRoutes;
 
   return (
     <div className="App">
-      <Login/>
+      <RouterProvider router={routes}/>
     </div>
   );
 }
-
-export default App;
