@@ -10,9 +10,8 @@ export const Navbar = () => {
     <div className="navbar-container">
       <BootstaroNavBar bg="light" variant="light">
         <Container>
-          <BootstaroNavBar.Brand as={Link} to='/'>Navbar</BootstaroNavBar.Brand>
+          <BootstaroNavBar.Brand as={Link} to='/'>Member</BootstaroNavBar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Add a folder</Nav.Link>
             <Nav.Link 
               as={Link}
               to='/profile'

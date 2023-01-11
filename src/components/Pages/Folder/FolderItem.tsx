@@ -8,7 +8,7 @@ export const FolderItem = (prop: IFolderItemProp) => {
     <>
       <Link
         to={`folder/${prop.id}`}
-        className='btn btn-outline-primary'
+        className='btn btn-outline-primary w-100 text-left'
       >
         <BsFolderFill/> {prop.name}
       </Link>

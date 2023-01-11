@@ -12,7 +12,7 @@ export const Root = () => {
       <Navbar/>
       <Container>
         <Row>
-          <Col>
+          <Col className='mt-2 mb-2'>
             <Outlet/>
           </Col>
         </Row>
