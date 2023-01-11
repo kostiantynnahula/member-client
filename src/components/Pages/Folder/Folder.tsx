@@ -1,7 +1,7 @@
 export const Folder = () => {
   return (
     <>
-    Folder component
+      <h3>Folder component</h3>
     </>
   );   
 }

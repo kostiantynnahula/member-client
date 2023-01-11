@@ -4,12 +4,13 @@ import { RouterProvider } from 'react-router-dom';
 
 export const App = () => {
 
-  const routes = publicRoutes;
-  // const routes = privateRoutes;
+  const isAuthorized = true;
+
+  const router = isAuthorized ? privateRoutes : publicRoutes;
 
   return (
     <div className="App">
-      <RouterProvider router={routes}/>
+      <RouterProvider router={router}/>
     </div>
   );
 }
