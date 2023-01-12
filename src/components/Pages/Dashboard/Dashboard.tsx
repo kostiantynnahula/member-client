@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { Row, Col, Button, Modal } from 'react-bootstrap';
 import { FolderItem } from './../Folder/FolderItem';
 import { File } from './../Folder/File';
+import { BsFolderPlus, BsFillFileArrowUpFill } from 'react-icons/bs';
 import './Dashboard.scss'
 
 export const Dashboard = () => {
@@ -20,20 +21,24 @@ export const Dashboard = () => {
   return (
     <>
       <h3>Dashboard component</h3>
+      <hr/>
       <div>
         <Row xs="auto">
           <Col>
             <Button
+              variant='outline-primary'
               onClick={() => setFolderModal(true)}
-            >Add folder</Button>
+            ><BsFolderPlus/></Button>
           </Col>
           <Col>
-            <Button
+            <Button 
+              variant='outline-primary'
               onClick={() => setFileModal(true)}
-            >Add file</Button>
+            ><BsFillFileArrowUpFill/></Button>
           </Col>
         </Row>
       </div>
+      <hr />
       <div className='mb-2 mt-2'>
         <Row>
           <Col xs={2}>
@@ -50,9 +55,10 @@ export const Dashboard = () => {
           </Col>
         </Row>
       </div>
-      <div>
-        <Row xs="auto">
-          <Col>
+      <hr />
+      <div className='mb-2 mt-2'>
+        <Row>
+          <Col xs={2}>
             <File/>
           </Col>
         </Row>

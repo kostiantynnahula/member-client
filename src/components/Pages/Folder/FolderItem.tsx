@@ -1,4 +1,3 @@
-import { Button } from 'react-bootstrap';
 import { BsFolderFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { IFolderItemProp } from './interfaces';
