@@ -17,3 +17,12 @@ export const FACEBOOK_LOGIN = gql`
     }
   }
 `;
+
+export const GET_AUTH_PROFILE = gql`
+  query authProfile {
+    profile {
+      _id
+      username
+    }
+  }
+`
