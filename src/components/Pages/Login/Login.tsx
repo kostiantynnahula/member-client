@@ -1,14 +1,23 @@
 import { useEffect } from 'react';
+import { ReactFacebookLoginInfo } from 'react-facebook-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import { GoogleLogin } from 'react-google-login';
+import { GoogleLogin, GoogleLoginResponse } from 'react-google-login';
 import { Button } from 'react-bootstrap';
 import { gapi } from 'gapi-script';
 import { BsGoogle, BsFacebook } from 'react-icons/bs';
+import { useMutation } from '@apollo/client';
+import { GOOGLE_LOGIN, FACEBOOK_LOGIN} from './../../../queries/auth';
+import { LocalStorageService } from './../../../utils/services/LocalStorage';
+import { GoogleAuthResponse, FacebookAuthResponse } from './../../../utils/models/auth';
 import './Login.scss';
 
 export const Login = () => {
 
   const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID || '';
+  const facebookAppId = process.env.REACT_APP_FACEBOOK_APP_ID || '';
+
+  const [googleLogin, googleResponseVars] = useMutation<GoogleAuthResponse>(GOOGLE_LOGIN);
+  const [facebookLogin, facebookResponseVars] = useMutation<FacebookAuthResponse>(FACEBOOK_LOGIN);
 
   useEffect(() => {
     const initClient = () => {
@@ -19,13 +28,52 @@ export const Login = () => {
       gapi.load('client:auth2', initClient);
     }
   });
-  
-  const onSuccess = (res: any) => {
-    console.log('success: ', res);
+
+  useEffect(() => {
+    if (googleResponseVars.data) {
+      const { _id, token } = googleResponseVars.data.signInGoogle;
+      LocalStorageService.setAuth({ _id, token });
+    }
+
+    if (facebookResponseVars.data) {
+      const { _id, token } = facebookResponseVars.data.signInFacebook;
+
+      LocalStorageService.setAuth({ _id, token });
+    }
+
+  }, [googleResponseVars, facebookResponseVars])
+
+  const onGoogleSuccess = (res: any) => {
+
+    const { tokenId } = res as unknown as GoogleLoginResponse;
+
+    if (tokenId) {
+      googleLogin({
+        variables: {
+          googleLoginPayload: { accessToken: tokenId }
+        }
+      })
+    }
   }
 
-  const onFailure = (res: any) => {
+  const onGoogleFailure = (res: any) => {
     console.log('failure: ', res);
+  }
+
+  const onFacebookCallback = (res: any) => {
+
+    const { accessToken, id } = res as unknown as ReactFacebookLoginInfo;
+
+    if (accessToken && id) {
+      facebookLogin({
+        variables: {
+          facebookInput: {
+            accessToken, 
+            id
+          }
+        }
+      })
+    }
   }
 
   return (
@@ -34,7 +82,7 @@ export const Login = () => {
         <h2>Login page component</h2>
         <div className='button-container'>
           <FacebookLogin
-            appId='1786612898371193'
+            appId={facebookAppId}
             autoLoad={false}
             fields={'name,email,picture'}
             scope={'public_profile,email'}
@@ -48,13 +96,13 @@ export const Login = () => {
                 Facebook <BsFacebook/>
               </Button>
             )}
-            callback={(res) => console.log(res)}
+            callback={onFacebookCallback}
           />
           <GoogleLogin
             clientId={googleClientId}
             buttonText='Google login'
-            onSuccess={onSuccess}
-            onFailure={onFailure}
+            onSuccess={onGoogleSuccess}
+            onFailure={onGoogleFailure}
             cookiePolicy={'single_host_origin'}
             isSignedIn={true}
             icon={true}
