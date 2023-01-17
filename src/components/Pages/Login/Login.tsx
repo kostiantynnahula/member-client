@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { ReactFacebookLoginInfo } from 'react-facebook-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { GoogleLogin, GoogleLoginResponse } from 'react-google-login';
@@ -9,6 +9,8 @@ import { useMutation } from '@apollo/client';
 import { GOOGLE_LOGIN, FACEBOOK_LOGIN} from './../../../queries/auth';
 import { LocalStorageService } from './../../../utils/services/LocalStorage';
 import { GoogleAuthResponse, FacebookAuthResponse } from './../../../utils/models/auth';
+import { apolloClient } from './../../../configs/apolloClient';
+import { AuthContext } from './../../../App';
 import './Login.scss';
 
 export const Login = () => {
@@ -18,6 +20,8 @@ export const Login = () => {
 
   const [googleLogin, googleResponseVars] = useMutation<GoogleAuthResponse>(GOOGLE_LOGIN);
   const [facebookLogin, facebookResponseVars] = useMutation<FacebookAuthResponse>(FACEBOOK_LOGIN);
+
+  const { setAuth } = useContext(AuthContext);
 
   useEffect(() => {
     const initClient = () => {
@@ -33,15 +37,16 @@ export const Login = () => {
     if (googleResponseVars.data) {
       const { _id, token } = googleResponseVars.data.signInGoogle;
       LocalStorageService.setAuth({ _id, token });
+      setAuth({ _id, token });
     }
 
     if (facebookResponseVars.data) {
       const { _id, token } = facebookResponseVars.data.signInFacebook;
-
       LocalStorageService.setAuth({ _id, token });
+      setAuth({ _id, token });
     }
 
-  }, [googleResponseVars, facebookResponseVars])
+  }, [googleResponseVars, facebookResponseVars, setAuth])
 
   const onGoogleSuccess = (res: any) => {
 
