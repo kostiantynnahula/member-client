@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Row, Col, Button, Modal } from 'react-bootstrap';
+import { Row, Col, Button, Modal, Form } from 'react-bootstrap';
 import { FolderItem } from './../Folder/FolderItem';
 import { File } from './../Folder/File';
 import { BsFolderPlus, BsFillFileArrowUpFill } from 'react-icons/bs';
@@ -67,7 +67,14 @@ export const Dashboard = () => {
         <Modal.Header closeButton>
           <Modal.Title>Folder modal</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Body>
+          <Form>
+            <Form.Group className='mb-3' controlId='formFolder'>
+              <Form.Label>Folder name</Form.Label>
+              <Form.Control type='text' placeholder='Name'/>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setFolderModal(false)}>
             Close
