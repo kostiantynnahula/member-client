@@ -10,3 +10,13 @@ export interface AuthDetails {
   _id: string;
   token: string;
 }
+
+export interface AuthProfile {
+  _id: string;
+  email: string;
+  username: string;
+}
+
+export interface AuthProfileCache {
+  profile: AuthProfile;
+}

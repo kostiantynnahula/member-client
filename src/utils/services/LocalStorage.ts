@@ -27,4 +27,8 @@ export class LocalStorageService {
   public static getAuth(): AuthDetails | null {
     return LocalStorageService.getItem<AuthDetails>('auth');
   }
+
+  public static clearAuth() {
+    LocalStorageService.removeItem('auth');
+  }
 }

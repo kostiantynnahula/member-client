@@ -7,7 +7,7 @@ import { AuthDetails } from './utils/models/auth';
 
 export const AuthContext = createContext({
   auth: LocalStorageService.getAuth() || null,
-  setAuth: (auth: AuthDetails) => {}
+  setAuth: (auth: AuthDetails | null) => {}
 });
 
 export const App = () => {

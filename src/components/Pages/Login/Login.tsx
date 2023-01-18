@@ -9,7 +9,6 @@ import { useMutation } from '@apollo/client';
 import { GOOGLE_LOGIN, FACEBOOK_LOGIN} from './../../../queries/auth';
 import { LocalStorageService } from './../../../utils/services/LocalStorage';
 import { GoogleAuthResponse, FacebookAuthResponse } from './../../../utils/models/auth';
-import { apolloClient } from './../../../configs/apolloClient';
 import { AuthContext } from './../../../App';
 import './Login.scss';
 
@@ -36,8 +35,8 @@ export const Login = () => {
   useEffect(() => {
     if (googleResponseVars.data) {
       const { _id, token } = googleResponseVars.data.signInGoogle;
-      LocalStorageService.setAuth({ _id, token });
-      setAuth({ _id, token });
+      // LocalStorageService.setAuth({ _id, token });
+      // setAuth({ _id, token });
     }
 
     if (facebookResponseVars.data) {
