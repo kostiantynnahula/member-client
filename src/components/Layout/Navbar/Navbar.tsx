@@ -1,11 +1,12 @@
 import { useContext } from 'react';
-import { Container, Nav, Navbar as BootstaroNavBar } from 'react-bootstrap';
+import { Container, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { GET_AUTH_PROFILE } from './../../../queries/auth';
 import { useQuery } from '@apollo/client';
 import { AuthProfileCache } from './../../../utils/models/auth';
 import { LocalStorageService } from './../../../utils/services/LocalStorage';
 import { AuthContext } from './../../../App';
+import { OrganizationModal } from './OrganizationModal';
 
 export const Navbar = () => {
 
@@ -19,9 +20,9 @@ export const Navbar = () => {
 
   return (
     <div className="navbar-container">
-      <BootstaroNavBar bg="light" variant="light">
+      <BootstrapNavbar bg="light" variant="light">
         <Container>
-          <BootstaroNavBar.Brand as={Link} to='/'>Member</BootstaroNavBar.Brand>
+          <BootstrapNavbar.Brand as={Link} to='/'>Member</BootstrapNavbar.Brand>
           <Nav className="justify-content-end">
             <Nav.Link 
               as={Link}
@@ -32,7 +33,8 @@ export const Navbar = () => {
             >Logout</Nav.Link>
           </Nav>
         </Container>
-      </BootstaroNavBar>
+      </BootstrapNavbar>
+      <OrganizationModal/>
     </div>
   )   
 }
