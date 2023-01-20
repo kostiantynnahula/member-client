@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useMutation } from '@apollo/client';
+import { CREATE_FOLDER } from './../../../queries/folder';
+import { CreateFolderResponse } from './../../../utils/models/folder';
 
 export interface IFolderModalProps {
   show: boolean;
@@ -16,6 +19,10 @@ export const FolderModal = (props: IFolderModalProps) => {
 
   const { show, setModalShow } = props;
   
+  const [createFolder, createFolderResponse] = useMutation<CreateFolderResponse>(CREATE_FOLDER)
+
+  // console.log(createFolderResponse, 'create folder response');
+
   const [initialValues] = useState<IFormValues>({
     name: ''
   });
@@ -26,9 +33,12 @@ export const FolderModal = (props: IFolderModalProps) => {
       .required()
   });
 
-
   const onSubmit = (values: IFormValues) => {
-    console.log('on submit folder', values);
+    createFolder({
+      variables: { 
+        folderData: { ...values }
+      }
+    });
   }
 
   const {

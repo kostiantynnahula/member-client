@@ -26,4 +26,4 @@ export const GET_AUTH_PROFILE = gql`
       username
     }
   }
-`
+`;
