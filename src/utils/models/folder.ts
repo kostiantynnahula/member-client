@@ -4,5 +4,9 @@ export interface Folder {
 }
 
 export interface CreateFolderResponse {
-  createFolder: Folder
+  createFolder: Folder;
+}
+
+export interface GetFoldersResponse {
+  getFolderList: Folder[];
 }

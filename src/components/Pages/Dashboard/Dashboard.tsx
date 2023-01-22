@@ -1,16 +1,28 @@
-import { useState, useCallback } from 'react';
-import { Row, Col, Button, Modal } from 'react-bootstrap';
+import { useState } from 'react';
+import { Row, Col, Button, Spinner } from 'react-bootstrap';
 import { FolderItem } from './../Folder/FolderItem';
 import { File } from './../Folder/File';
 import { BsFolderPlus, BsFillFileArrowUpFill } from 'react-icons/bs';
 import { FolderModal } from './FolderModal';
 import { FileModal } from './FileModal';
+import { useQuery } from '@apollo/client';
+import { GET_FOLDERS } from './../../../queries/folder';
+import { GetFoldersResponse } from './../../../utils/models/folder';
 import './Dashboard.scss'
 
 export const Dashboard = () => {
 
   const [folderModal, setFolderModal] = useState<boolean>(false);
   const [fileModal, setFileModal] = useState<boolean>(false);
+
+  const { loading, data } = useQuery<GetFoldersResponse>(GET_FOLDERS, {
+    variables: {
+      params: {
+        page: 1,
+        limit: 100
+      }
+    }
+  });
 
   return (
     <>
@@ -34,19 +46,20 @@ export const Dashboard = () => {
       </div>
       <hr />
       <div className='mb-2 mt-2'>
+        {loading && <Row className='text-center'>
+          <Col>
+            <Spinner variant='primary'/>
+          </Col>  
+        </Row>}
         <Row>
-          <Col xs={2}>
-            <FolderItem
-              id='1'
-              name='First folder'
-            />
-          </Col>
-          <Col xs={2}>
-            <FolderItem
-              id='2'
-              name='Second folder'
-            />
-          </Col>
+          {!loading && data?.getFolderList.map((folder) => (
+            <Col xs={2} key={folder._id}>
+              <FolderItem
+                id={folder._id}
+                name={folder.name}
+              />
+            </Col>
+          ))}
         </Row>
       </div>
       <hr />
