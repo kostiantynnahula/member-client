@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Row, Col, Button, Form } from 'react-bootstrap';
+import { Row, Col, Button, Form, Spinner } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { AuthProfileCache } from './../../../utils/models/auth';
+import { AuthProfileCache, UpdateProfileCache } from './../../../utils/models/auth';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_AUTH_PROFILE } from './../../../queries/auth';
+import { GET_AUTH_PROFILE, UPDATE_PROFILE } from './../../../queries/auth';
 import { Link } from 'react-router-dom';
 
 interface IFormValues {
@@ -14,7 +14,8 @@ interface IFormValues {
 
 export const Profile = () => {
 
-  const { data: userData } = useQuery<AuthProfileCache>(GET_AUTH_PROFILE);
+  const { data: userData, loading: queryProfileLoading } = useQuery<AuthProfileCache>(GET_AUTH_PROFILE);
+  const [ updateProfile, { loading: mutatioProfileLoading } ] = useMutation<UpdateProfileCache>(UPDATE_PROFILE);
 
   const [initialValues, setInitialValues] = useState<IFormValues>({
     email: '',
@@ -40,8 +41,14 @@ export const Profile = () => {
     }
   }, [userData])
 
-  const onSubmit = (value: IFormValues) => {
-    console.log(value, 'value')
+  const onSubmit = (values: IFormValues) => {
+    updateProfile({
+      variables: {
+        updateProfilePayload: {
+          ...values
+        }
+      }
+    });
   };
 
   const {
@@ -63,68 +70,74 @@ export const Profile = () => {
       <h3>Profile</h3>
       <hr/>
       <div>
-        <Row>
+        { (queryProfileLoading || mutatioProfileLoading) && <Row className='text-center'>
           <Col>
-            <Form
-              noValidate
-              onSubmit={handleSubmit}
-              autoComplete='off'
-            >
-                <Row>
-                  <Col xs={6}>
-                    <Form.Group className='mb-3'>
-                      <Form.Label>Username:</Form.Label>
-                      <Form.Control 
-                        type='text'
-                        name='username'
-                        placeholder='username'
-                        value={values.username}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        isInvalid={!!errors.username && touched.username}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {errors.username}
-                      </Form.Control.Feedback>
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs={6}>
-                    <Form.Group className='mb-3'>
-                      <Form.Label>Email:</Form.Label>
-                      <Form.Control 
-                        type='text'
-                        name='email'
-                        placeholder='email'
-                        value={values.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        isInvalid={!!errors.email && touched.email}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {errors.email}
-                      </Form.Control.Feedback>
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs={6}>
-                    {/* <Button
-                      variant='outline-primary'
-                      style={{ marginRight: 10}}
-                      as={Link}
-                    >Back</Button> */}
-                    {/* <Link component={Button} to='/'></Link> */}
-                    <Button 
-                      variant='primary' 
-                      type='submit'
-                    >Submit</Button>
-                  </Col>
-                </Row>
-            </Form>
-          </Col>
-        </Row>
+            <Spinner variant='primary'/>
+          </Col>  
+        </Row>}
+        { !queryProfileLoading && !mutatioProfileLoading && 
+          <Row>
+            <Col>
+              <Form
+                noValidate
+                onSubmit={handleSubmit}
+                autoComplete='off'
+              >
+                  <Row>
+                    <Col xs={6}>
+                      <Form.Group className='mb-3'>
+                        <Form.Label>Username:</Form.Label>
+                        <Form.Control 
+                          type='text'
+                          name='username'
+                          placeholder='username'
+                          value={values.username}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          isInvalid={!!errors.username && touched.username}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.username}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={6}>
+                      <Form.Group className='mb-3'>
+                        <Form.Label>Email:</Form.Label>
+                        <Form.Control 
+                          type='text'
+                          name='email'
+                          placeholder='email'
+                          value={values.email}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          isInvalid={!!errors.email && touched.email}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.email}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={6}>
+                      <Link 
+                        to='/'
+                        className='btn btn-outline-primary'
+                        style={{ marginRight: 10 }}
+                      >Back</Link>
+                      <Button 
+                        variant='primary' 
+                        type='submit'
+                      >Submit</Button>
+                    </Col>
+                  </Row>
+              </Form>
+            </Col>
+          </Row>          
+        }
       </div>
     </>
   )

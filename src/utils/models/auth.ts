@@ -20,3 +20,7 @@ export interface AuthProfile {
 export interface AuthProfileCache {
   profile: AuthProfile;
 }
+
+export interface UpdateProfileCache {
+  updateProfile: AuthProfile;
+}

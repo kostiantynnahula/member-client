@@ -27,3 +27,13 @@ export const GET_AUTH_PROFILE = gql`
     }
   }
 `;
+
+export const UPDATE_PROFILE = gql`
+  mutation updateProfile($updateProfilePayload: ProfileInput!) {
+    updateProfile(profileInput: $updateProfilePayload) {
+      _id
+      email
+      username
+    }
+  }
+`;
