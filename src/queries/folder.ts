@@ -17,3 +17,20 @@ export const GET_FOLDERS = gql`
     }
   }
 `;
+
+export const DELETE_FOLDER = gql`
+  mutation deleteFolder($id: String!) {
+    deleteFolder(id: $id) {
+      _id  
+    }
+  }
+`;
+
+export const UPDATE_FOLDER = gql`
+  mutation editFolder($folderData: UpdateFolderInput!) {
+    updateFolder(updateFolderInput: $$folderData) {
+      _id
+      name
+    }
+  }
+`;
