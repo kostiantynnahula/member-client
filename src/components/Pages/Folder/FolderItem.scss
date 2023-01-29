@@ -1,0 +1,16 @@
+.folder-item {
+
+  a {
+    width: 100%;
+    display: block;
+  }
+
+  button {
+    width: 100%;
+    text-align: left;
+    
+    &::after {
+      display: none !important;
+    }
+  }
+}
