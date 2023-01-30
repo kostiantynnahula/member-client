@@ -28,7 +28,7 @@ export const DELETE_FOLDER = gql`
 
 export const UPDATE_FOLDER = gql`
   mutation editFolder($folderData: UpdateFolderInput!) {
-    updateFolder(updateFolderInput: $$folderData) {
+    updateFolder(updateFolderInput: $folderData) {
       _id
       name
     }

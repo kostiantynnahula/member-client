@@ -1,15 +1,34 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { BsFolderFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { IFolderItemProp } from './interfaces';
+import { ConfirmModalContext } from './../../Layout/Root/Root';
+import { DELETE_FOLDER, GET_FOLDERS } from './../../../queries/folder';
+import { useMutation } from '@apollo/client';
 import './FolderItem.scss';
 
 export const FolderItem = (prop: IFolderItemProp) => {
 
   const title = (<><BsFolderFill/> {prop.name}</>);
 
+  const { context, setContext } = useContext(ConfirmModalContext);
+
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+  const [ deleteFolder ] = useMutation<any>(DELETE_FOLDER, {
+    refetchQueries: [
+      {
+        query: GET_FOLDERS,
+        variables: {
+          params: {
+            page: 1,
+            limit: 100
+          }
+        }
+      }
+    ]
+  });
 
   const onOpenContextMenu = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -21,7 +40,24 @@ export const FolderItem = (prop: IFolderItemProp) => {
   }
 
   const onDeleteFolder = () => {
-    console.log('on delete folder');
+    setContext({
+      show: true,
+      details: {
+        title: 'Delete folder',
+        description: 'Are you sure?'
+      },
+      onSubmit: () => onConfirmDeleteFolder(),
+    });
+  }
+
+  const onConfirmDeleteFolder = () => {
+    deleteFolder({
+      variables: {
+        id: prop.id
+      }
+    });
+
+    setContext({ ...context, show: false })
   }
   
   return (
