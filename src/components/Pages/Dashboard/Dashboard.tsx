@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, createContext } from 'react';
 import { Row, Col, Button, Spinner } from 'react-bootstrap';
 import { FolderItem } from './../Folder/FolderItem';
 import { File } from './../Folder/File';
@@ -8,12 +8,37 @@ import { FileModal } from './FileModal';
 import { useQuery } from '@apollo/client';
 import { GET_FOLDERS } from './../../../queries/folder';
 import { GetFoldersResponse } from './../../../utils/models/folder';
+import { EditFolderModal } from './EditFolderModal';
 import './Dashboard.scss'
+
+export interface IEditFolderModalContext {
+  show: boolean,
+  data: {
+    name: string,
+  }
+  onSubmit: (data?: any) => void
+}
+
+const defaultContext = {
+  show: false,
+  data: {
+    name: ''
+  },
+  onSubmit: (data?: any) => {},
+};
+
+export const EditModalContext = createContext({
+  context: defaultContext,
+  setContext: (context: IEditFolderModalContext) => {}
+});
+
 
 export const Dashboard = () => {
 
   const [folderModal, setFolderModal] = useState<boolean>(false);
   const [fileModal, setFileModal] = useState<boolean>(false);
+
+  const [ context, setContext ] = useState<IEditFolderModalContext>(defaultContext);
 
   const { loading, data } = useQuery<GetFoldersResponse>(GET_FOLDERS, {
     variables: {
@@ -45,23 +70,26 @@ export const Dashboard = () => {
         </Row>
       </div>
       <hr />
-      <div className='mb-2 mt-2'>
-        {loading && <Row className='text-center'>
-          <Col>
-            <Spinner variant='primary'/>
-          </Col>  
-        </Row>}
-        <Row>
-          {!loading && data?.getFolderList.map((folder) => (
-            <Col xs={2} key={folder._id}>
-              <FolderItem
-                id={folder._id}
-                name={folder.name}
-              />
-            </Col>
-          ))}
-        </Row>
-      </div>
+      <EditModalContext.Provider value={{ context, setContext }}>
+        <div className='mb-2 mt-2'>
+          {loading && <Row className='text-center'>
+            <Col>
+              <Spinner variant='primary'/>
+            </Col>  
+          </Row>}
+          <Row>
+            {!loading && data?.getFolderList.map((folder) => (
+              <Col xs={2} key={folder._id}>
+                <FolderItem
+                  id={folder._id}
+                  name={folder.name}
+                />
+              </Col>
+            ))}
+          </Row>
+        </div>
+        <EditFolderModal/>
+      </EditModalContext.Provider>
       <hr />
       <div className='mb-2 mt-2'>
         <Row>

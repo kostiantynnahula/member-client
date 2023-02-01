@@ -4,7 +4,8 @@ import { BsFolderFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { IFolderItemProp } from './interfaces';
 import { ConfirmModalContext } from './../../Layout/Root/Root';
-import { DELETE_FOLDER, GET_FOLDERS } from './../../../queries/folder';
+import { EditModalContext } from './../Dashboard/Dashboard';
+import { DELETE_FOLDER, GET_FOLDERS, UPDATE_FOLDER } from './../../../queries/folder';
 import { useMutation } from '@apollo/client';
 import './FolderItem.scss';
 
@@ -13,6 +14,8 @@ export const FolderItem = (prop: IFolderItemProp) => {
   const title = (<><BsFolderFill/> {prop.name}</>);
 
   const { context, setContext } = useContext(ConfirmModalContext);
+  
+  const { setContext: setEditContext } = useContext(EditModalContext);
 
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
@@ -30,13 +33,41 @@ export const FolderItem = (prop: IFolderItemProp) => {
     ]
   });
 
+  const [ updateFolder ] = useMutation(UPDATE_FOLDER, {
+    refetchQueries: [
+      {
+        query: GET_FOLDERS,
+        variables: {
+          params: {
+            page: 1,
+            limit: 100
+          }
+        }
+      }
+    ]
+  })
+
   const onOpenContextMenu = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     setMenuOpen(true);
   }
 
   const onEditFolder = () => {
-    console.log('on edit folder');
+    setEditContext({
+      show: true,
+      data: {
+        name: prop.name
+      },
+      onSubmit: (data) => onSubmitEditFolder(data),
+    });
+  }
+
+  const onSubmitEditFolder = (data: IFolderItemProp) => {
+    updateFolder({
+      variables: {
+        folderData: { ...data, _id: prop.id }
+      }
+    })
   }
 
   const onDeleteFolder = () => {
