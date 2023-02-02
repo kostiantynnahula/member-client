@@ -35,8 +35,8 @@ export const Login = () => {
   useEffect(() => {
     if (googleResponseVars.data) {
       const { _id, token } = googleResponseVars.data.signInGoogle;
-      // LocalStorageService.setAuth({ _id, token });
-      // setAuth({ _id, token });
+      LocalStorageService.setAuth({ _id, token });
+      setAuth({ _id, token });
     }
 
     if (facebookResponseVars.data) {
@@ -108,7 +108,7 @@ export const Login = () => {
             onSuccess={onGoogleSuccess}
             onFailure={onGoogleFailure}
             cookiePolicy={'single_host_origin'}
-            isSignedIn={true}
+            isSignedIn={false}
             icon={true}
             render={props => (
               <Button
