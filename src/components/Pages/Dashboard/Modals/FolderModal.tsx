@@ -1,19 +1,11 @@
 import { useState } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 import { useMutation } from '@apollo/client';
-import { CREATE_FOLDER, GET_FOLDERS } from './../../../queries/folder';
-import { CreateFolderResponse } from './../../../utils/models/folder';
-
-export interface IFolderModalProps {
-  show: boolean;
-  setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-interface IFormValues {
-  name: string;
-}
+import { CREATE_FOLDER, GET_FOLDERS } from '../../../../queries/folder';
+import { CreateFolderResponse } from '../../../../utils/models/folder';
+import * as yup from 'yup';
+import { IFolderModalProps, IFormValues } from './../../../../utils/models/dashboard/folder-modal';
 
 export const FolderModal = (props: IFolderModalProps) => {
 
@@ -50,12 +42,14 @@ export const FolderModal = (props: IFolderModalProps) => {
       }
     });
     setModalShow(false);
+    resetForm();
   }
 
   const {
     handleSubmit,
     handleChange,
     handleBlur,
+    resetForm,
     values,
     errors,
     touched,
@@ -69,7 +63,7 @@ export const FolderModal = (props: IFolderModalProps) => {
   return (
     <Modal show={show} onHide={() => setModalShow(false)} animation={false}>
       <Modal.Header closeButton>
-        <Modal.Title>Folder modal</Modal.Title>
+        <Modal.Title>Create Folder</Modal.Title>
       </Modal.Header>
       <Form
           noValidate
@@ -78,7 +72,7 @@ export const FolderModal = (props: IFolderModalProps) => {
         >
         <Modal.Body>
           <Form.Group className='mb-3'>
-            <Form.Label>Folder name:</Form.Label>
+            <Form.Label>Name:</Form.Label>
             <Form.Control 
               type='text'
               name='name'
@@ -96,7 +90,7 @@ export const FolderModal = (props: IFolderModalProps) => {
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setModalShow(false)}>Close</Button>
           <Button variant="primary" type='submit'>
-            Save Changes
+            Save
           </Button>
         </Modal.Footer>
       </Form>

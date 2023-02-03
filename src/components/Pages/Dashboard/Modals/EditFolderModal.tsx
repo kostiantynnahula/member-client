@@ -2,9 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { EditModalContext } from './Dashboard';
-import { useMutation } from '@apollo/client';
-import { UPDATE_FOLDER, GET_FOLDERS } from './../../../queries/folder';
+import { EditModalContext } from '../Dashboard';
 
 interface IFormValues {
   name: string;
@@ -31,6 +29,7 @@ export const EditFolderModal = () => {
   const onSubmit = (values: IFormValues) => {
     context.onSubmit(values);
     setContext({ ...context, show: false });
+    resetForm();
   }
 
   const onClose = () => {
@@ -41,6 +40,7 @@ export const EditFolderModal = () => {
     handleSubmit,
     handleChange,
     handleBlur,
+    resetForm,
     values,
     errors,
     touched,
@@ -54,7 +54,7 @@ export const EditFolderModal = () => {
   return (
     <Modal show={context.show} onHide={() => onClose()}>
       <Modal.Header>
-        Folder modal
+        Edit folder
       </Modal.Header>
       <Form
         noValidate
@@ -63,7 +63,7 @@ export const EditFolderModal = () => {
       >
         <Modal.Body>
           <Form.Group className='mb-3'>
-            <Form.Label>Folder name:</Form.Label>
+            <Form.Label>Name:</Form.Label>
             <Form.Control 
               type='text'
               name='name'
@@ -81,7 +81,7 @@ export const EditFolderModal = () => {
         <Modal.Footer>
           <Button variant="secondary" onClick={() => onClose()}>Close</Button>
           <Button variant="primary" type='submit'>
-            Save Changes
+            Save
           </Button>
         </Modal.Footer>
       </Form>

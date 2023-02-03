@@ -3,12 +3,12 @@ import { Row, Col, Button, Spinner } from 'react-bootstrap';
 import { FolderItem } from './../Folder/FolderItem';
 import { File } from './../Folder/File';
 import { BsFolderPlus, BsFillFileArrowUpFill } from 'react-icons/bs';
-import { FolderModal } from './FolderModal';
+import { FolderModal } from './Modals/FolderModal';
 import { FileModal } from './FileModal';
 import { useQuery } from '@apollo/client';
 import { GET_FOLDERS } from './../../../queries/folder';
 import { GetFoldersResponse } from './../../../utils/models/folder';
-import { EditFolderModal } from './EditFolderModal';
+import { EditFolderModal } from './Modals/EditFolderModal';
 import './Dashboard.scss'
 
 export interface IEditFolderModalContext {

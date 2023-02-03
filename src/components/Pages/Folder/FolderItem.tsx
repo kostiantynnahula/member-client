@@ -67,7 +67,7 @@ export const FolderItem = (prop: IFolderItemProp) => {
       variables: {
         folderData: { ...data, _id: prop.id }
       }
-    })
+    });
   }
 
   const onDeleteFolder = () => {
