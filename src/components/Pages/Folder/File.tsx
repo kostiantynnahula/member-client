@@ -1,27 +1,36 @@
-import { Card, Dropdown, DropdownButton } from 'react-bootstrap';
+import { useState } from 'react';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
+import { BsFillFileEarmarkFill } from 'react-icons/bs';
 
 export const File = () => {
+  
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const title = (<><BsFillFileEarmarkFill/> File </>);
+
+  const onOpenContextMenu = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    setMenuOpen(true);
+  }
+
+  const onEdit = () => {
+    console.log('on edit');
+  }
+
+  const onDelete = () => {
+    console.log('on delete');
+  }
+
   return (
-    <>
-      <Card>
-        <Card.Body>
-          <Card.Title>File name</Card.Title>  
-          <DropdownButton
-            id="dropdown-button-dark-example2"
-            title="Actions"
-            className="mt-2 w-100"
-            variant='outline-primary'
-          >
-            <Dropdown.Item href="#/action-1" active>
-              Action
-            </Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-            <Dropdown.Divider />
-            <Dropdown.Item href="#/action-4">Separated link</Dropdown.Item>
-          </DropdownButton>
-        </Card.Body>  
-      </Card> 
-    </>
+    <div className='file-item'>
+      <DropdownButton
+        title={title}
+        show={menuOpen}
+        onToggle={() => setMenuOpen(false)}
+        onContextMenu={onOpenContextMenu}
+      >
+        <Dropdown.Item onClick={onEdit}>Edit</Dropdown.Item>
+        <Dropdown.Item onClick={onDelete}>Delete</Dropdown.Item>
+      </DropdownButton>
+    </div>
   );
 }

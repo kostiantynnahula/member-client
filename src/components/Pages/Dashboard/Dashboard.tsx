@@ -2,7 +2,7 @@ import { useState, createContext } from 'react';
 import { Row, Col, Button, Spinner } from 'react-bootstrap';
 import { FolderItem } from './../Folder/FolderItem';
 import { File } from './../Folder/File';
-import { BsFolderPlus, BsFillFileArrowUpFill } from 'react-icons/bs';
+import { BsFolderPlus, BsFillFileEarmarkArrowUpFill } from 'react-icons/bs';
 import { FolderModal } from './Modals/FolderModal';
 import { FileModal } from './FileModal';
 import { useQuery } from '@apollo/client';
@@ -57,15 +57,17 @@ export const Dashboard = () => {
         <Row xs="auto">
           <Col>
             <Button
+              size='lg'
               variant='outline-primary'
               onClick={() => setFolderModal(true)}
             ><BsFolderPlus/></Button>
           </Col>
           <Col>
-            <Button 
+            <Button
+              size='lg' 
               variant='outline-primary'
               onClick={() => setFileModal(true)}
-            ><BsFillFileArrowUpFill/></Button>
+            ><BsFillFileEarmarkArrowUpFill/></Button>
           </Col>
         </Row>
       </div>
