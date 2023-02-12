@@ -8,5 +8,5 @@ export interface CreateFolderResponse {
 }
 
 export interface GetFoldersResponse {
-  getFolderList: Folder[];
+  folderList: Folder[];
 }

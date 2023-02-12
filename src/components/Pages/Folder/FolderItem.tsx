@@ -7,9 +7,12 @@ import { ConfirmModalContext } from './../../Layout/Root/Root';
 import { EditModalContext } from './../Dashboard/Dashboard';
 import { DELETE_FOLDER, GET_FOLDERS, UPDATE_FOLDER } from './../../../queries/folder';
 import { useMutation } from '@apollo/client';
+import { useParams } from 'react-router-dom';
 import './FolderItem.scss';
 
 export const FolderItem = (prop: IFolderItemProp) => {
+
+  const { id: parent_id = null } = useParams();
 
   const title = (<><BsFolderFill/> {prop.name}</>);
 
@@ -25,8 +28,7 @@ export const FolderItem = (prop: IFolderItemProp) => {
         query: GET_FOLDERS,
         variables: {
           params: {
-            page: 1,
-            limit: 100
+            parent_id
           }
         }
       }
@@ -39,8 +41,7 @@ export const FolderItem = (prop: IFolderItemProp) => {
         query: GET_FOLDERS,
         variables: {
           params: {
-            page: 1,
-            limit: 100
+            parent_id
           }
         }
       }
@@ -97,7 +98,7 @@ export const FolderItem = (prop: IFolderItemProp) => {
         as={Link} 
         title={title}
         show={menuOpen}
-        to={`folder/${prop.id}`}
+        to={`/folder/${prop.id}`}
         onToggle={() => setMenuOpen(false)}
         onContextMenu={onOpenContextMenu}
         variant={'outline-primary'}

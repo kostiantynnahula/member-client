@@ -10,8 +10,8 @@ export const CREATE_FOLDER = gql`
 `;
 
 export const GET_FOLDERS = gql`
-  query getFolders($params: GetManyFolderInput!) {
-    getFolderList(params: $params) {
+  query getFolders($params: ListFolderQuery!) {
+    folderList(params: $params) {
       _id
       name
     }

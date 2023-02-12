@@ -6,10 +6,13 @@ import { CREATE_FOLDER, GET_FOLDERS } from '../../../../queries/folder';
 import { CreateFolderResponse } from '../../../../utils/models/folder';
 import * as yup from 'yup';
 import { IFolderModalProps, IFormValues } from './../../../../utils/models/dashboard/folder-modal';
+import { useParams } from 'react-router-dom';
 
 export const FolderModal = (props: IFolderModalProps) => {
 
   const { show, setModalShow } = props;
+
+  const { id: parent_id = null } = useParams();
   
   const [createFolder] = useMutation<CreateFolderResponse>(CREATE_FOLDER, {
     refetchQueries: [
@@ -17,8 +20,7 @@ export const FolderModal = (props: IFolderModalProps) => {
         query: GET_FOLDERS,
         variables: {
           params: {
-            page: 1,
-            limit: 100
+            parent_id,
           }
         }
       }
@@ -26,7 +28,7 @@ export const FolderModal = (props: IFolderModalProps) => {
   })
 
   const [initialValues] = useState<IFormValues>({
-    name: ''
+    name: '',
   });
 
   const validationSchema = yup.object({
@@ -38,7 +40,7 @@ export const FolderModal = (props: IFolderModalProps) => {
   const onSubmit = (values: IFormValues) => {
     createFolder({
       variables: { 
-        folderData: { ...values }
+        folderData: { ...values, parent_id }
       }
     });
     setModalShow(false);

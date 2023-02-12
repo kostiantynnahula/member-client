@@ -13,12 +13,18 @@ export const privateRoutes = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Dashboard/>
+        element: <Dashboard/>,
+        children: [
+          {
+            path: '/',
+            element: <Folder/>
+          },
+          {
+            path: 'folder/:id',
+            element: <Folder/>
+          }
+        ]
       },
-      {
-        path: 'folder/:id',
-        element: <Folder/>
-      }, 
       {
         path: 'profile',
         element: <Profile/>

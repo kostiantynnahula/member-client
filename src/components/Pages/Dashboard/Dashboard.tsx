@@ -1,14 +1,10 @@
 import { useState, createContext } from 'react';
-import { Row, Col, Button, Spinner } from 'react-bootstrap';
-import { FolderItem } from './../Folder/FolderItem';
-import { File } from './../Folder/File';
+import { Row, Col, Button } from 'react-bootstrap';
 import { BsFolderPlus, BsFillFileEarmarkArrowUpFill } from 'react-icons/bs';
 import { FolderModal } from './Modals/FolderModal';
 import { FileModal } from './FileModal';
-import { useQuery } from '@apollo/client';
-import { GET_FOLDERS } from './../../../queries/folder';
-import { GetFoldersResponse } from './../../../utils/models/folder';
 import { EditFolderModal } from './Modals/EditFolderModal';
+import { Outlet } from 'react-router-dom';
 import './Dashboard.scss'
 
 export interface IEditFolderModalContext {
@@ -40,19 +36,8 @@ export const Dashboard = () => {
 
   const [ context, setContext ] = useState<IEditFolderModalContext>(defaultContext);
 
-  const { loading, data } = useQuery<GetFoldersResponse>(GET_FOLDERS, {
-    variables: {
-      params: {
-        page: 1,
-        limit: 100
-      }
-    }
-  });
-
   return (
     <>
-      <h3>Dashboard component</h3>
-      <hr/>
       <div>
         <Row xs="auto">
           <Col>
@@ -73,33 +58,9 @@ export const Dashboard = () => {
       </div>
       <hr />
       <EditModalContext.Provider value={{ context, setContext }}>
-        <div className='mb-2 mt-2'>
-          {loading && <Row className='text-center'>
-            <Col>
-              <Spinner variant='primary'/>
-            </Col>  
-          </Row>}
-          <Row>
-            {!loading && data?.getFolderList.map((folder) => (
-              <Col xs={2} key={folder._id}>
-                <FolderItem
-                  id={folder._id}
-                  name={folder.name}
-                />
-              </Col>
-            ))}
-          </Row>
-        </div>
+        <Outlet/>
         <EditFolderModal/>
       </EditModalContext.Provider>
-      <hr />
-      <div className='mb-2 mt-2'>
-        <Row>
-          <Col xs={2}>
-            <File/>
-          </Col>
-        </Row>
-      </div>
       <FolderModal
         show={folderModal}
         setModalShow={setFolderModal}
