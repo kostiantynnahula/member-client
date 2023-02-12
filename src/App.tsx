@@ -1,9 +1,9 @@
 import { createContext, useState } from 'react';
-import { privateRoutes } from './routes/private';
-import { publicRoutes } from './routes/public';
+import { privateRoutes } from 'routes/private';
+import { publicRoutes } from 'routes/public';
 import { RouterProvider } from 'react-router-dom';
-import { LocalStorageService } from './utils/services/LocalStorage';
-import { AuthDetails } from './utils/models/auth';
+import { LocalStorageService } from 'utils/services/LocalStorage';
+import { AuthDetails } from 'utils/models/auth';
 
 export const AuthContext = createContext({
   auth: LocalStorageService.getAuth() || null,

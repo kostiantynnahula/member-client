@@ -1,9 +1,9 @@
 import { useState, createContext } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { BsFolderPlus, BsFillFileEarmarkArrowUpFill } from 'react-icons/bs';
-import { FolderModal } from './Modals/FolderModal';
-import { FileModal } from './FileModal';
-import { EditFolderModal } from './Modals/EditFolderModal';
+import { FolderModal } from 'components/Pages/Dashboard/Modals/FolderModal';
+import { FileModal } from 'components/Pages/Dashboard/FileModal';
+import { EditFolderModal } from 'components/Pages/Dashboard/Modals/EditFolderModal';
 import { Outlet } from 'react-router-dom';
 import './Dashboard.scss'
 

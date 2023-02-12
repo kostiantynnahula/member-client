@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { GET_FOLDERS } from './../../../queries/folder';
-import { GetFoldersResponse } from './../../../utils/models/folder';
+import { GET_FOLDERS } from 'queries/folder';
+import { GetFoldersResponse } from 'utils/models/folder';
 import { Row, Col, Spinner } from 'react-bootstrap';
-import { FolderItem } from './../Folder/FolderItem';
-import { File } from './../Folder/File';
+import { FolderItem } from 'components/Pages/Folder/FolderItem';
+import { File } from 'components/Pages/Folder/File';
 
 export const Folder = () => {
 

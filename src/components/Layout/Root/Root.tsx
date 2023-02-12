@@ -1,8 +1,8 @@
 import { createContext, useState } from 'react';
-import { Navbar } from '../Navbar/Navbar';
+import { Navbar } from 'components/Layout/Navbar/Navbar';
 import { Outlet } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import { ConfirmModal } from './../ConfirmModal';
+import { ConfirmModal } from 'components/Layout/ConfirmModal';
 
 export interface IConfirmModalContext {
   show: boolean;

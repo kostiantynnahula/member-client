@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Modal, Button} from 'react-bootstrap';
-import { ConfirmModalContext } from './Root/Root';
+import { ConfirmModalContext } from 'components/Layout/Root/Root';
 
 export const ConfirmModal = () => {
 

@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import { Container, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { GET_AUTH_PROFILE } from './../../../queries/auth';
+import { GET_AUTH_PROFILE } from 'queries/auth';
 import { useQuery } from '@apollo/client';
-import { AuthProfileCache } from './../../../utils/models/auth';
-import { LocalStorageService } from './../../../utils/services/LocalStorage';
-import { AuthContext } from './../../../App';
-import { OrganizationModal } from './OrganizationModal';
+import { AuthProfileCache } from 'utils/models/auth';
+import { LocalStorageService } from 'utils/services/LocalStorage';
+import { AuthContext } from 'App';
+import { OrganizationModal } from 'components/Layout/Navbar/OrganizationModal';
 
 export const Navbar = () => {
 

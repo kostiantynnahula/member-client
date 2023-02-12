@@ -1,5 +1,5 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
-import { LocalStorageService } from './../utils/services/LocalStorage';
+import { LocalStorageService } from 'utils/services/LocalStorage';
 import { setContext } from '@apollo/client/link/context'
 
 const httpLink = createHttpLink({

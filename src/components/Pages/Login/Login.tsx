@@ -6,10 +6,10 @@ import { Button } from 'react-bootstrap';
 import { gapi } from 'gapi-script';
 import { BsGoogle, BsFacebook } from 'react-icons/bs';
 import { useMutation } from '@apollo/client';
-import { GOOGLE_LOGIN, FACEBOOK_LOGIN} from './../../../queries/auth';
-import { LocalStorageService } from './../../../utils/services/LocalStorage';
-import { GoogleAuthResponse, FacebookAuthResponse } from './../../../utils/models/auth';
-import { AuthContext } from './../../../App';
+import { GOOGLE_LOGIN, FACEBOOK_LOGIN} from 'queries/auth';
+import { LocalStorageService } from 'utils/services/LocalStorage';
+import { GoogleAuthResponse, FacebookAuthResponse } from 'utils/models/auth';
+import { AuthContext } from 'App';
 import './Login.scss';
 
 export const Login = () => {

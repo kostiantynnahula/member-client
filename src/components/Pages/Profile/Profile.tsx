@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Row, Col, Button, Form, Spinner } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { AuthProfileCache, UpdateProfileCache } from './../../../utils/models/auth';
+import { AuthProfileCache, UpdateProfileCache } from 'utils/models/auth';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_AUTH_PROFILE, UPDATE_PROFILE } from './../../../queries/auth';
+import { GET_AUTH_PROFILE, UPDATE_PROFILE } from 'queries/auth';
 import { Link } from 'react-router-dom';
 
 interface IFormValues {

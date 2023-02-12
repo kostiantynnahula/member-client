@@ -1,4 +1,4 @@
-import { AuthDetails } from '../models/auth';
+import { AuthDetails } from 'utils/models/auth';
 
 export class LocalStorageService {
 
