@@ -6,3 +6,11 @@ export interface IFolderModalProps {
 export interface IFormValues {
   name: string;
 }
+
+export interface IEditFolderModalContext {
+  show: boolean,
+  data: {
+    name: string,
+  }
+  onSubmit: (data?: any) => void
+}

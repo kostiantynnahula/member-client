@@ -1,40 +1,15 @@
-import { useState, createContext } from 'react';
+import { useState } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { BsFolderPlus, BsFillFileEarmarkArrowUpFill } from 'react-icons/bs';
 import { FolderModal } from 'components/Pages/Dashboard/Modals/FolderModal';
-import { FileModal } from 'components/Pages/Dashboard/FileModal';
-import { EditFolderModal } from 'components/Pages/Dashboard/Modals/EditFolderModal';
+import { FileModal } from 'components/Pages/Folder/FileModal';
 import { Outlet } from 'react-router-dom';
 import './Dashboard.scss'
-
-export interface IEditFolderModalContext {
-  show: boolean,
-  data: {
-    name: string,
-  }
-  onSubmit: (data?: any) => void
-}
-
-const defaultContext = {
-  show: false,
-  data: {
-    name: ''
-  },
-  onSubmit: (data?: any) => {},
-};
-
-export const EditModalContext = createContext({
-  context: defaultContext,
-  setContext: (context: IEditFolderModalContext) => {}
-});
-
 
 export const Dashboard = () => {
 
   const [folderModal, setFolderModal] = useState<boolean>(false);
   const [fileModal, setFileModal] = useState<boolean>(false);
-
-  const [ context, setContext ] = useState<IEditFolderModalContext>(defaultContext);
 
   return (
     <>
@@ -57,10 +32,7 @@ export const Dashboard = () => {
         </Row>
       </div>
       <hr />
-      <EditModalContext.Provider value={{ context, setContext }}>
-        <Outlet/>
-        <EditFolderModal/>
-      </EditModalContext.Provider>
+      <Outlet/>
       <FolderModal
         show={folderModal}
         setModalShow={setFolderModal}

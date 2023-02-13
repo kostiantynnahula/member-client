@@ -5,7 +5,7 @@ import { useMutation } from '@apollo/client';
 import { CREATE_FOLDER, GET_FOLDERS } from 'queries/folder';
 import { CreateFolderResponse } from 'utils/models/folder';
 import * as yup from 'yup';
-import { IFolderModalProps, IFormValues } from 'utils/models/dashboard/folder-modal';
+import { IFolderModalProps, IFormValues } from 'utils/models/folder/folder-modal';
 import { useParams } from 'react-router-dom';
 
 export const FolderModal = (props: IFolderModalProps) => {
