@@ -12,6 +12,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/react-facebook-login": "^4.1.5",
+    "apollo-upload-client": "^17.0.0",
     "bootstrap": "^5.2.3",
     "formik": "^2.2.9",
     "gapi-script": "^1.2.0",
