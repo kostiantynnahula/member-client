@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { UPLOAD_FILE } from 'queries/file';
+import { useMutation } from '@apollo/client';
 
 export interface IFileModalProps {
   show: boolean;
@@ -17,6 +19,8 @@ export const FileModal = (props: IFileModalProps) => {
 
   const { show, setModalShow } = props;
 
+  const [uploadFile] = useMutation(UPLOAD_FILE);
+
   const [initialValues, setInitialValues] = useState<IFormValues>({
     name: '',
     file: null,
@@ -30,13 +34,18 @@ export const FileModal = (props: IFileModalProps) => {
 
   const onSubmit = (values: IFormValues) => {
     console.log(values, 'on submit file');
-    console.log(values.file?.size, 'file')
+    uploadFile({
+      variables: {
+        data: {...values},
+      }
+    });
   }
 
   const {
     handleSubmit,
     handleChange,
     handleBlur,
+    setFieldValue,
     resetForm,
     values,
     errors,
@@ -47,6 +56,11 @@ export const FileModal = (props: IFileModalProps) => {
     initialValues: initialValues,
     enableReinitialize: true,
   });
+
+  const onSelectFile = (e: any) => {
+    const [file] = e.currentTarget.files;
+    setFieldValue('file', file);
+  }
 
   return (
     <Modal show={show} onHide={() => setModalShow(false)} animation={false}>
@@ -79,8 +93,7 @@ export const FileModal = (props: IFileModalProps) => {
             <Form.Control 
               type='file'
               name='file'
-              onChange={handleChange}
-              onBlur={handleBlur}
+              onChange={onSelectFile}
             />
           </Form.Group>
         </Modal.Body>
