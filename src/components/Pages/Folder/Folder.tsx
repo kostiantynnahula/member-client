@@ -9,6 +9,8 @@ import { File } from 'components/Pages/Folder/File';
 import { EditFolderModal } from 'components/Pages/Folder/EditFolderModal';
 import { IEditFolderModalContext } from 'utils/models/folder/folder-modal';
 import { EditModalContext, defaultContext } from 'components/Pages/Folder/context/editModalContext';
+import { GET_FILES } from 'queries/file';
+import { GetFilesResponse } from 'utils/models/file';
 
 export const Folder = () => {
 
@@ -18,6 +20,15 @@ export const Folder = () => {
     variables: {
       params: {
         parent_id,
+      }
+    }
+  });
+
+  const { loading: fileLoading, data: files } = useQuery<GetFilesResponse>(GET_FILES, {
+    variables: {
+      params: {
+        page: 1,
+        limit: 100,
       }
     }
   });
@@ -49,9 +60,11 @@ export const Folder = () => {
         <hr/>
         <div className='mb-2 mt-2'>
           <Row>
-            <Col xs={2}>
-              <File/>
-            </Col>
+            {!fileLoading && files?.getMany.map(file => (
+              <Col xs={2} key={file._id}>
+                <File {...file}/>
+              </Col>
+            ))}
           </Row>
         </div>
       </div>

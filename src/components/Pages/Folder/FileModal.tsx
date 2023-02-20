@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -33,12 +33,13 @@ export const FileModal = (props: IFileModalProps) => {
   });
 
   const onSubmit = (values: IFormValues) => {
-    console.log(values, 'on submit file');
     uploadFile({
       variables: {
         data: {...values},
       }
     });
+    resetForm();
+    setModalShow(false);
   }
 
   const {
@@ -60,6 +61,7 @@ export const FileModal = (props: IFileModalProps) => {
   const onSelectFile = (e: any) => {
     const [file] = e.currentTarget.files;
     setFieldValue('file', file);
+    setFieldValue('name', file.name);
   }
 
   return (

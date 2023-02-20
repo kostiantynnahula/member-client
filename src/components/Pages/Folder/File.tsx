@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { BsFillFileEarmarkFill } from 'react-icons/bs';
+import { File as FileResponse } from 'utils/models/file';
 
-export const File = () => {
+export const File = (data: FileResponse) => {
   
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const title = (<><BsFillFileEarmarkFill/> File </>);
+  const title = (<><BsFillFileEarmarkFill/>{data.name}</>);
 
   const onOpenContextMenu = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -21,7 +22,7 @@ export const File = () => {
   }
 
   return (
-    <div className='file-item'>
+    <div className='file-item mt-1 mb-1'>
       <DropdownButton
         title={title}
         show={menuOpen}
