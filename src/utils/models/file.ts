@@ -4,6 +4,6 @@ export interface File {
   folder_id: string;
 }
 
-export interface GetFilesResponse {
-  getMany: File[];
+export interface FilesResponse {
+  files: File[];
 }

@@ -7,6 +7,6 @@ export interface CreateFolderResponse {
   createFolder: Folder;
 }
 
-export interface GetFoldersResponse {
-  folderList: Folder[];
+export interface FoldersResponse {
+  folders: Folder[];
 }

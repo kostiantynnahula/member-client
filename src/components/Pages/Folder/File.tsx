@@ -6,7 +6,7 @@ import { File as FileResponse } from 'utils/models/file';
 export const File = (data: FileResponse) => {
   
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const title = (<><BsFillFileEarmarkFill/>{data.name}</>);
+  const title = (<><BsFillFileEarmarkFill/><span>{data.name}</span></>);
 
   const onOpenContextMenu = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();

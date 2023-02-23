@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useMutation } from '@apollo/client';
-import { CREATE_FOLDER, GET_FOLDERS } from 'queries/folder';
+import { CREATE_FOLDER, FOLDERS } from 'queries/folder';
 import { CreateFolderResponse } from 'utils/models/folder';
 import * as yup from 'yup';
 import { IFolderModalProps, IFormValues } from 'utils/models/folder/folder-modal';
@@ -17,11 +17,9 @@ export const FolderModal = (props: IFolderModalProps) => {
   const [createFolder] = useMutation<CreateFolderResponse>(CREATE_FOLDER, {
     refetchQueries: [
       {
-        query: GET_FOLDERS,
+        query: FOLDERS,
         variables: {
-          params: {
-            parent_id,
-          }
+          parent_id
         }
       }
     ],

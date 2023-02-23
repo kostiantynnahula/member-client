@@ -9,9 +9,9 @@ export const UPLOAD_FILE = gql`
   }
 `;
 
-export const GET_FILES = gql`
-  query getFiles($params: GetManyFileInput!) {
-    getMany(params: $params) {
+export const FILES = gql`
+  query files($folder_id: String) {
+    files(folder_id: $folder_id) {
       _id
       name
     }

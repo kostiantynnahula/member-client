@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { IFolderItemProp } from './interfaces';
 import { ConfirmModalContext } from 'components/Layout/Root/Root';
 import { EditModalContext } from 'components/Pages/Folder/context/editModalContext';
-import { DELETE_FOLDER, GET_FOLDERS, UPDATE_FOLDER } from 'queries/folder';
+import { DELETE_FOLDER, FOLDERS, UPDATE_FOLDER } from 'queries/folder';
 import { useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import './FolderItem.scss';
@@ -25,11 +25,9 @@ export const FolderItem = (prop: IFolderItemProp) => {
   const [ deleteFolder ] = useMutation<any>(DELETE_FOLDER, {
     refetchQueries: [
       {
-        query: GET_FOLDERS,
+        query: FOLDERS,
         variables: {
-          params: {
-            parent_id
-          }
+          parent_id
         }
       }
     ]
@@ -38,11 +36,9 @@ export const FolderItem = (prop: IFolderItemProp) => {
   const [ updateFolder ] = useMutation(UPDATE_FOLDER, {
     refetchQueries: [
       {
-        query: GET_FOLDERS,
+        query: FOLDERS,
         variables: {
-          params: {
-            parent_id
-          }
+          parent_id
         }
       }
     ]

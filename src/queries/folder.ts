@@ -9,9 +9,9 @@ export const CREATE_FOLDER = gql`
   }
 `;
 
-export const GET_FOLDERS = gql`
-  query getFolders($params: ListFolderQuery!) {
-    folderList(params: $params) {
+export const FOLDERS = gql`
+  query getFolders($parent_id: String) {
+    folders(parent_id: $parent_id) {
       _id
       name
     }
@@ -27,7 +27,7 @@ export const DELETE_FOLDER = gql`
 `;
 
 export const UPDATE_FOLDER = gql`
-  mutation editFolder($folderData: UpdateFolderInput!) {
+  mutation updateFolder($folderData: UpdateFolderInput!) {
     updateFolder(updateFolderInput: $folderData) {
       _id
       name
