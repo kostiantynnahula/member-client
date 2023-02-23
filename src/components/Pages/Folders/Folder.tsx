@@ -2,15 +2,19 @@ import { useState, useContext } from 'react';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { BsFolderFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { IFolderItemProp } from './interfaces';
 import { ConfirmModalContext } from 'components/Layout/Root/Root';
-import { EditModalContext } from 'components/Pages/Folder/context/editModalContext';
+import { EditModalContext } from 'components/Pages/Folders/context/editModalContext';
 import { DELETE_FOLDER, FOLDERS, UPDATE_FOLDER } from 'queries/folder';
 import { useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import './FolderItem.scss';
 
-export const FolderItem = (prop: IFolderItemProp) => {
+export interface IFolderProp {
+  id: string;
+  name: string;
+}
+
+export const Folder= (prop: IFolderProp) => {
 
   const { id: parent_id = null } = useParams();
 
@@ -59,7 +63,7 @@ export const FolderItem = (prop: IFolderItemProp) => {
     });
   }
 
-  const onSubmitEditFolder = (data: IFolderItemProp) => {
+  const onSubmitEditFolder = (data: IFolderProp) => {
     updateFolder({
       variables: {
         folderData: { ...data, _id: prop.id }

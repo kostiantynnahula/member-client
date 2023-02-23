@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { EditModalContext } from 'components/Pages/Folder/context/editModalContext';
+import { EditModalContext } from 'components/Pages/Folders/context/editModalContext';
 
 interface IFormValues {
   name: string;

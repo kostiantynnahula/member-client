@@ -4,15 +4,15 @@ import { useQuery } from '@apollo/client';
 import { FOLDERS } from 'queries/folder';
 import { FoldersResponse } from 'utils/models/folder';
 import { Row, Col, Spinner } from 'react-bootstrap';
-import { FolderItem } from 'components/Pages/Folder/FolderItem';
-import { File } from 'components/Pages/Folder/File';
-import { EditFolderModal } from 'components/Pages/Folder/EditFolderModal';
+import { Folder } from 'components/Pages/Folders/Folder';
+import { File } from 'components/Pages/Folders/File';
+import { EditFolderModal } from 'components/Pages/Folders/modals/EditFolderModal';
 import { IEditFolderModalContext } from 'utils/models/folder/folder-modal';
-import { EditModalContext, defaultContext } from 'components/Pages/Folder/context/editModalContext';
+import { EditModalContext, defaultContext } from 'components/Pages/Folders/context/editModalContext';
 import { FILES } from 'queries/file';
 import { FilesResponse } from 'utils/models/file';
 
-export const Folder = () => {
+export const Folders = () => {
 
   const { id: parent_id = null } = useParams();
 
@@ -42,7 +42,7 @@ export const Folder = () => {
         <Row>
           {!folderLoading && folderData?.folders.map((folder) => (
             <Col xs={2} key={folder._id}>
-              <FolderItem
+              <Folder
                 id={folder._id}
                 name={folder.name}
               />

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { BsFolderPlus, BsFillFileEarmarkArrowUpFill } from 'react-icons/bs';
 import { FolderModal } from 'components/Pages/Dashboard/Modals/FolderModal';
-import { FileModal } from 'components/Pages/Folder/FileModal';
+import { FileModal } from 'components/Pages/Folders/modals/FileModal';
 import { Outlet } from 'react-router-dom';
 import './Dashboard.scss'
 
