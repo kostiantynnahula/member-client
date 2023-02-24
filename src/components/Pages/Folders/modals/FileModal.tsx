@@ -1,13 +1,15 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { UPLOAD_FILE } from 'queries/file';
 import { useMutation } from '@apollo/client';
+import { File as FileModel } from 'utils/models/file';
 
 export interface IFileModalProps {
   show: boolean;
-  setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
+  file?: FileModel;
+  onClose: () => void;
 }
 
 export interface IFormValues {
@@ -17,7 +19,7 @@ export interface IFormValues {
 
 export const FileModal = (props: IFileModalProps) => {
 
-  const { show, setModalShow } = props;
+  const { show, onClose, file } = props;
 
   const [uploadFile] = useMutation(UPLOAD_FILE);
 
@@ -32,6 +34,14 @@ export const FileModal = (props: IFileModalProps) => {
       .required()
   });
 
+  useEffect(() => {
+    setInitialValues({
+      name: file?.name || '',
+      file: null,
+    })
+  }, [file])
+
+
   const onSubmit = (values: IFormValues) => {
     uploadFile({
       variables: {
@@ -39,7 +49,7 @@ export const FileModal = (props: IFileModalProps) => {
       }
     });
     resetForm();
-    setModalShow(false);
+    onClose();
   }
 
   const {
@@ -65,7 +75,7 @@ export const FileModal = (props: IFileModalProps) => {
   }
 
   return (
-    <Modal show={show} onHide={() => setModalShow(false)} animation={false}>
+    <Modal show={show} onHide={() => onClose()} animation={false}>
       <Modal.Header closeButton>
         <Modal.Title>File upload</Modal.Title>
       </Modal.Header>
@@ -90,17 +100,17 @@ export const FileModal = (props: IFileModalProps) => {
               {errors.name}
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group className='mb-3'>
+          {!file && <Form.Group className='mb-3'>
             <Form.Label>File:</Form.Label>
             <Form.Control 
               type='file'
               name='file'
               onChange={onSelectFile}
             />
-          </Form.Group>
+          </Form.Group>}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setModalShow(false)}>
+          <Button variant="secondary" onClick={() => onClose()}>
             Close
           </Button>
           <Button variant="primary" type="submit">

@@ -10,11 +10,18 @@ import { EditFolderModal } from 'components/Pages/Folders/modals/EditFolderModal
 import { IEditFolderModalContext } from 'utils/models/folder/folder-modal';
 import { EditModalContext, defaultContext } from 'components/Pages/Folders/context/editModalContext';
 import { FILES } from 'queries/file';
-import { FilesResponse } from 'utils/models/file';
+import { FilesResponse, File as FileModel } from 'utils/models/file';
+import { FileModal } from 'components/Pages/Folders/modals/FileModal';
+
+interface IFileModalProps {
+  show: boolean;
+  file?: FileModel;
+}
 
 export const Folders = () => {
 
   const { id: parent_id = null } = useParams();
+  const [ fileModal, setFileModal ] = useState<IFileModalProps>({ show: false });
 
   const { loading: folderLoading, data: folderData } = useQuery<FoldersResponse>(FOLDERS, {
     variables: {
@@ -29,6 +36,10 @@ export const Folders = () => {
   });
 
   const [ context, setContext ] = useState<IEditFolderModalContext>(defaultContext);
+
+  const onEditFile = (file: FileModel) => {
+    setFileModal({ show: true, file });
+  }
 
   return (
     <EditModalContext.Provider value={{ context, setContext }}>
@@ -57,13 +68,23 @@ export const Folders = () => {
           <Row>
             {!fileLoading && filesData?.files.map(file => (
               <Col xs={2} key={file._id}>
-                <File {...file}/>
+                <File
+                  data={file}
+                  onEdit={onEditFile}
+                />
               </Col>
             ))}
           </Row>
         </div>
       </div>
       <EditFolderModal/>
+      <FileModal 
+        show={fileModal.show}
+        onClose={() => setFileModal({
+          show: false,
+        })}
+        file={fileModal.file}
+      />
     </EditModalContext.Provider>
   );   
 }

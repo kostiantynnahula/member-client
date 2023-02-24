@@ -39,7 +39,7 @@ export const Dashboard = () => {
       />
       <FileModal
         show={fileModal}
-        setModalShow={setFileModal}
+        onClose={() => setFileModal(false)}
       />
     </>
   );

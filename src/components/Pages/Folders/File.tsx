@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { BsFillFileEarmarkFill } from 'react-icons/bs';
-import { File as FileResponse } from 'utils/models/file';
+import { File as FileModel } from 'utils/models/file';
 
-export const File = (data: FileResponse) => {
+interface IFileProps {
+  data: FileModel;
+  onEdit: (data: FileModel) => void;
+}
+
+export const File = (props: IFileProps) => {
   
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const title = (<><BsFillFileEarmarkFill/><span>{data.name}</span></>);
+  const title = (<><BsFillFileEarmarkFill/><span>{props.data.name}</span></>);
 
   const onOpenContextMenu = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     setMenuOpen(true);
-  }
-
-  const onEdit = () => {
-    console.log('on edit');
   }
 
   const onDelete = () => {
@@ -29,7 +30,7 @@ export const File = (data: FileResponse) => {
         onToggle={() => setMenuOpen(false)}
         onContextMenu={onOpenContextMenu}
       >
-        <Dropdown.Item onClick={onEdit}>Edit</Dropdown.Item>
+        <Dropdown.Item onClick={() => props.onEdit(props.data)}>Edit</Dropdown.Item>
         <Dropdown.Item onClick={onDelete}>Delete</Dropdown.Item>
       </DropdownButton>
     </div>
