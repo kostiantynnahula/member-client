@@ -1,24 +1,39 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { EditModalContext } from 'components/Pages/Folders/context/editModalContext';
+import { Folder } from 'utils/models/folder';
+import { useMutation } from '@apollo/client';
+import { UPDATE_FOLDER, FOLDERS } from 'queries/folder';
+import { useParams } from 'react-router-dom';
 
 interface IFormValues {
   name: string;
 }
 
-export const EditFolderModal = () => {
+interface IFolderModalProps {
+  folder?: Folder;
+  show: boolean;
+  onClose: () => void,
+}
 
-  const { context, setContext } = useContext(EditModalContext);
+export const FolderModal = ({
+  folder,
+  show,
+  onClose,
+}: IFolderModalProps) => {
+
+  const { id: parent_id = null } = useParams();
 
   const [initialValues, setInitialValues] = useState<IFormValues>({
     name: ''
   });
 
   useEffect(() => {
-    setInitialValues(context.data);
-  }, [context]);
+    setInitialValues({
+      name: folder?.name || '',
+    });
+  }, [folder]);
 
   const validationSchema = yup.object({
     name: yup.string()
@@ -26,14 +41,29 @@ export const EditFolderModal = () => {
       .required()
   });
 
-  const onSubmit = (values: IFormValues) => {
-    context.onSubmit(values);
-    setContext({ ...context, show: false });
-    resetForm();
-  }
+  const [ updateFolder ] = useMutation(UPDATE_FOLDER, {
+    refetchQueries: [
+      {
+        query: FOLDERS,
+        variables: {
+          parent_id
+        }
+      }
+    ]
+  });
 
-  const onClose = () => {
-    setContext({ ...context, show: false })
+  const onSubmit = (values: IFormValues) => {
+    updateFolder({
+      variables: {
+        folderData: {
+          _id: folder?._id,
+          name: values.name,
+          parentId: parent_id,
+        }
+      }
+    });
+    resetForm();
+    onClose();
   }
 
   const {
@@ -52,7 +82,7 @@ export const EditFolderModal = () => {
   })
 
   return (
-    <Modal show={context.show} onHide={() => onClose()}>
+    <Modal show={show} onHide={() => onClose()}>
       <Modal.Header>
         Edit folder
       </Modal.Header>

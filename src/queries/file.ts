@@ -17,3 +17,12 @@ export const FILES = gql`
     }
   }
 `;
+
+export const UPDATE_FILE = gql`
+  mutation updateFile($updateFileInput: UpdateFileInput!) {
+    updateFile(updateFileInput: $updateFileInput) {
+      _id
+      name
+    }
+  }
+`;

@@ -6,11 +6,12 @@ import { FoldersResponse } from 'utils/models/folder';
 import { Row, Col, Spinner } from 'react-bootstrap';
 import { Folder } from 'components/Pages/Folders/Folder';
 import { File } from 'components/Pages/Folders/File';
-import { EditFolderModal } from 'components/Pages/Folders/modals/EditFolderModal';
+import { FolderModal } from 'components/Pages/Folders/modals/FolderModal';
 import { IEditFolderModalContext } from 'utils/models/folder/folder-modal';
 import { EditModalContext, defaultContext } from 'components/Pages/Folders/context/editModalContext';
 import { FILES } from 'queries/file';
 import { FilesResponse, File as FileModel } from 'utils/models/file';
+import { Folder as FolderModel } from 'utils/models/folder';
 import { FileModal } from 'components/Pages/Folders/modals/FileModal';
 
 interface IFileModalProps {
@@ -18,10 +19,16 @@ interface IFileModalProps {
   file?: FileModel;
 }
 
+interface IFolderModalProps {
+  show: boolean;
+  folder?: FolderModel;
+}
+
 export const Folders = () => {
 
   const { id: parent_id = null } = useParams();
   const [ fileModal, setFileModal ] = useState<IFileModalProps>({ show: false });
+  const [ folderModal, setFolderModal ] = useState<IFolderModalProps>({ show: false });
 
   const { loading: folderLoading, data: folderData } = useQuery<FoldersResponse>(FOLDERS, {
     variables: {
@@ -35,14 +42,16 @@ export const Folders = () => {
     }
   });
 
-  const [ context, setContext ] = useState<IEditFolderModalContext>(defaultContext);
-
   const onEditFile = (file: FileModel) => {
     setFileModal({ show: true, file });
   }
 
+  const onEditFolder = (folder: FolderModel) => {
+    setFolderModal({ show: true, folder });
+  }
+
   return (
-    <EditModalContext.Provider value={{ context, setContext }}>
+    <>
       <div className='mb-2 mt-2'>
         {(folderLoading || fileLoading) && <Row className='text-center'>
             <Col>
@@ -54,8 +63,8 @@ export const Folders = () => {
           {!folderLoading && folderData?.folders.map((folder) => (
             <Col xs={2} key={folder._id}>
               <Folder
-                id={folder._id}
-                name={folder.name}
+                data={folder}
+                onEdit={onEditFolder}
               />
             </Col>
           ))}
@@ -77,14 +86,16 @@ export const Folders = () => {
           </Row>
         </div>
       </div>
-      <EditFolderModal/>
+      <FolderModal
+        show={folderModal.show}
+        folder={folderModal.folder}
+        onClose={() => setFolderModal({ show: false })}
+      />
       <FileModal 
         show={fileModal.show}
-        onClose={() => setFileModal({
-          show: false,
-        })}
         file={fileModal.file}
+        onClose={() => setFileModal({ show: false })}
       />
-    </EditModalContext.Provider>
+    </>
   );   
 }

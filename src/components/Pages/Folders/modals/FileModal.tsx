@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { UPLOAD_FILE } from 'queries/file';
+import { UPLOAD_FILE, UPDATE_FILE } from 'queries/file';
 import { useMutation } from '@apollo/client';
 import { File as FileModel } from 'utils/models/file';
 
@@ -22,6 +22,8 @@ export const FileModal = (props: IFileModalProps) => {
   const { show, onClose, file } = props;
 
   const [uploadFile] = useMutation(UPLOAD_FILE);
+
+  const [updateFile] = useMutation(UPDATE_FILE);
 
   const [initialValues, setInitialValues] = useState<IFormValues>({
     name: '',
@@ -43,11 +45,22 @@ export const FileModal = (props: IFileModalProps) => {
 
 
   const onSubmit = (values: IFormValues) => {
-    uploadFile({
-      variables: {
-        data: {...values},
-      }
-    });
+    if (file) {
+      updateFile({
+        variables: {
+          updateFileInput: {
+            _id: file._id,
+            name: values.name,
+          }
+        }
+      });
+    } else {
+      uploadFile({
+        variables: {
+          data: {...values},
+        }
+      });
+    }
     resetForm();
     onClose();
   }
