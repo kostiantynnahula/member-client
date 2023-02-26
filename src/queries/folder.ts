@@ -34,3 +34,12 @@ export const UPDATE_FOLDER = gql`
     }
   }
 `;
+
+export const BREADCRUMB = gql`
+  query breadcrumb($folder_id: String!) {
+    breadcrumb(id: $folder_id) {
+      _id
+      name
+    }
+  }
+`

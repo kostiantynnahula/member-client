@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { FOLDERS } from 'queries/folder';
-import { FoldersResponse } from 'utils/models/folder';
-import { Row, Col, Spinner } from 'react-bootstrap';
+import { FOLDERS, BREADCRUMB } from 'queries/folder';
+import { FoldersResponse, BreadcrumbResponse } from 'utils/models/folder';
+import { Row, Col, Spinner, Breadcrumb } from 'react-bootstrap';
 import { Folder } from 'components/Pages/Folders/Folder';
 import { File } from 'components/Pages/Folders/File';
 import { FolderModal } from 'components/Pages/Folders/modals/FolderModal';
@@ -38,6 +38,12 @@ export const Folders = () => {
     }
   });
 
+  const { data: breadcrumbData } = useQuery<BreadcrumbResponse>(BREADCRUMB, {
+    variables: {
+      folder_id: parent_id,
+    }
+  });
+
   const onEditFile = (file: FileModel) => {
     setFileModal({ show: true, file });
   }
@@ -52,6 +58,26 @@ export const Folders = () => {
 
   return (
     <>
+      {parent_id &&
+        <Breadcrumb>
+          <Breadcrumb.Item
+            linkAs={Link}
+            linkProps={{
+              to: '/'
+            }}
+          >Home</Breadcrumb.Item>
+          {breadcrumbData?.breadcrumb.map((breadcrumb, i) => (
+            <Breadcrumb.Item
+              key={i}
+              linkAs={Link}
+              linkProps={{
+                to: `/folder/${breadcrumb._id}`
+              }}
+              href=''
+            >{breadcrumb.name}</Breadcrumb.Item>
+          ))}
+        </Breadcrumb>
+      }
       <div className='mb-2 mt-2'>
         {(folderLoading || fileLoading) && <Row className='text-center'>
             <Col>

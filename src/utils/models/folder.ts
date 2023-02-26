@@ -10,3 +10,7 @@ export interface CreateFolderResponse {
 export interface FoldersResponse {
   folders: Folder[];
 }
+
+export interface BreadcrumbResponse {
+  breadcrumb: Folder[];
+} 
