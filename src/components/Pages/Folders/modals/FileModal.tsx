@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { UPLOAD_FILE, UPDATE_FILE } from 'queries/file';
+import { UPLOAD_FILE, UPDATE_FILE, FILES } from 'queries/file';
 import { useMutation } from '@apollo/client';
 import { File as FileModel } from 'utils/models/file';
+import { useParams } from 'react-router-dom';
 
 export interface IFileModalProps {
   show: boolean;
@@ -19,11 +20,22 @@ export interface IFormValues {
 
 export const FileModal = (props: IFileModalProps) => {
 
+  const { id: parent_id = null } = useParams();
+
   const { show, onClose, file } = props;
 
   const [uploadFile] = useMutation(UPLOAD_FILE);
 
-  const [updateFile] = useMutation(UPDATE_FILE);
+  const [updateFile] = useMutation(UPDATE_FILE, {
+    refetchQueries: [
+      {
+        query: FILES,
+        variables: {
+          parent_id,
+        }
+      }
+    ]
+  });
 
   const [initialValues, setInitialValues] = useState<IFormValues>({
     name: '',
