@@ -7,28 +7,24 @@ import { Row, Col, Spinner } from 'react-bootstrap';
 import { Folder } from 'components/Pages/Folders/Folder';
 import { File } from 'components/Pages/Folders/File';
 import { FolderModal } from 'components/Pages/Folders/modals/FolderModal';
-import { IEditFolderModalContext } from 'utils/models/folder/folder-modal';
-import { EditModalContext, defaultContext } from 'components/Pages/Folders/context/editModalContext';
 import { FILES } from 'queries/file';
 import { FilesResponse, File as FileModel } from 'utils/models/file';
 import { Folder as FolderModel } from 'utils/models/folder';
 import { FileModal } from 'components/Pages/Folders/modals/FileModal';
-
-interface IFileModalProps {
-  show: boolean;
-  file?: FileModel;
-}
-
-interface IFolderModalProps {
-  show: boolean;
-  folder?: FolderModel;
-}
+import { 
+  IFileModalState,
+  IFolderModalState,
+  IDeleteData,
+  IDeleteModalState
+} from 'utils/models/folder/folder-modal';
+import { DeleteModal } from 'components/Pages/Folders/modals/DeleteModal';
 
 export const Folders = () => {
 
   const { id: parent_id = null } = useParams();
-  const [ fileModal, setFileModal ] = useState<IFileModalProps>({ show: false });
-  const [ folderModal, setFolderModal ] = useState<IFolderModalProps>({ show: false });
+  const [ fileModal, setFileModal ] = useState<IFileModalState>({ show: false });
+  const [ folderModal, setFolderModal ] = useState<IFolderModalState>({ show: false });
+  const [ deleteModal, setDeleteModal ] = useState<IDeleteModalState>({ show: false, type: '' });
 
   const { loading: folderLoading, data: folderData } = useQuery<FoldersResponse>(FOLDERS, {
     variables: {
@@ -50,6 +46,10 @@ export const Folders = () => {
     setFolderModal({ show: true, folder });
   }
 
+  const onDeleteData = (data: IDeleteData, type: string) => {
+    setDeleteModal({ show: true, type, data });
+  }
+
   return (
     <>
       <div className='mb-2 mt-2'>
@@ -65,6 +65,7 @@ export const Folders = () => {
               <Folder
                 data={folder}
                 onEdit={onEditFolder}
+                onDelete={onDeleteData}
               />
             </Col>
           ))}
@@ -80,6 +81,7 @@ export const Folders = () => {
                 <File
                   data={file}
                   onEdit={onEditFile}
+                  onDelete={onDeleteData}
                 />
               </Col>
             ))}
@@ -95,6 +97,12 @@ export const Folders = () => {
         show={fileModal.show}
         file={fileModal.file}
         onClose={() => setFileModal({ show: false })}
+      />
+      <DeleteModal
+        type={deleteModal.type}
+        show={deleteModal.show}
+        data={deleteModal.data}
+        onClose={() => setDeleteModal({ show: false })}
       />
     </>
   );   

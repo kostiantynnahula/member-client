@@ -26,3 +26,11 @@ export const UPDATE_FILE = gql`
     }
   }
 `;
+
+export const DELETE_FILE = gql`
+  mutation deleteFile($id: String!) {
+    deleteFile(id: $id) {
+      _id
+    }
+  }
+`

@@ -1,3 +1,6 @@
+import { Folder } from 'utils/models/folder';
+import { File } from 'utils/models/file';
+
 export interface IFolderModalProps {
   show: boolean;
   setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,4 +16,32 @@ export interface IEditFolderModalContext {
     name: string,
   }
   onSubmit: (data?: any) => void
+}
+
+export interface IFileModalState {
+  show: boolean;
+  file?: File;
+}
+
+export interface IFolderModalState {
+  show: boolean;
+  folder?: Folder;
+}
+
+export interface IDeleteData {
+  _id: string;
+  name: string;
+}
+
+export interface IDeleteModalState {
+  data?: IDeleteData;
+  show: boolean;
+  type?: string;
+}
+
+export interface IDeleteModalProps {
+  show: boolean;
+  type?: string;
+  data?: IDeleteData;
+  onClose: () => void;
 }

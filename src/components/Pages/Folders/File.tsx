@@ -2,24 +2,26 @@ import { useState } from 'react';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { BsFillFileEarmarkFill } from 'react-icons/bs';
 import { File as FileModel } from 'utils/models/file';
+import { IDeleteData } from 'utils/models/folder/folder-modal';
 
 interface IFileProps {
   data: FileModel;
   onEdit: (data: FileModel) => void;
+  onDelete: (data: IDeleteData, type: string) => void;
 }
 
-export const File = (props: IFileProps) => {
+export const File = ({
+  data,
+  onEdit,
+  onDelete,
+}: IFileProps) => {
   
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const title = (<><BsFillFileEarmarkFill/><span>{props.data.name}</span></>);
+  const title = (<><BsFillFileEarmarkFill/><span>{data.name}</span></>);
 
   const onOpenContextMenu = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     setMenuOpen(true);
-  }
-
-  const onDelete = () => {
-    console.log('on delete');
   }
 
   return (
@@ -30,8 +32,8 @@ export const File = (props: IFileProps) => {
         onToggle={() => setMenuOpen(false)}
         onContextMenu={onOpenContextMenu}
       >
-        <Dropdown.Item onClick={() => props.onEdit(props.data)}>Edit</Dropdown.Item>
-        <Dropdown.Item onClick={onDelete}>Delete</Dropdown.Item>
+        <Dropdown.Item onClick={() => onEdit(data)}>Edit</Dropdown.Item>
+        <Dropdown.Item onClick={() => onDelete(data, 'file')}>Delete</Dropdown.Item>
       </DropdownButton>
     </div>
   );
