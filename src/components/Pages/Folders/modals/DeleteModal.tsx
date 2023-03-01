@@ -1,8 +1,7 @@
 import { Modal, Form, Button } from 'react-bootstrap';
-import { IDeleteModalProps } from 'utils/models/folder/folder-modal';
+import { IDeleteModalProps } from 'components/Pages/Folders/models';
 import { useMutation } from '@apollo/client';
-import { DELETE_FOLDER, FOLDERS } from 'queries/folder';
-import { DELETE_FILE, FILES } from 'queries/file';
+import { DELETE_FOLDER, FOLDERS, DELETE_FILE } from 'queries/folder';
 import { useParams } from 'react-router-dom';
 
 export const DeleteModal = ({
@@ -28,7 +27,7 @@ export const DeleteModal = ({
   const [deleteFile] = useMutation(DELETE_FILE, {
     refetchQueries: [
       {
-        query: FILES,
+        query: FOLDERS,
         variables: {
           parent_id,
         }
@@ -36,7 +35,8 @@ export const DeleteModal = ({
     ]
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
     if (data) {
       if (type === 'folder') {
         deleteFolder({

@@ -1,5 +1,4 @@
-import { Folder } from 'utils/models/folder';
-import { File } from 'utils/models/file';
+import { Folder, File } from 'utils/models/folder';
 
 export interface IFolderModalProps {
   show: boolean;

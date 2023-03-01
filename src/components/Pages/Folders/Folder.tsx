@@ -3,7 +3,7 @@ import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { BsFolderFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { Folder as FolderModel } from 'utils/models/folder';
-import { IDeleteData } from 'utils/models/folder/folder-modal';
+import { IDeleteData } from 'components/Pages/Folders/models';
 import './FolderItem.scss';
 
 export interface IFolderProp {

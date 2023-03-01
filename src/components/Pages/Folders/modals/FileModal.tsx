@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { UPLOAD_FILE, UPDATE_FILE, FILES } from 'queries/file';
+import { FOLDERS, UPLOAD_FILE, UPDATE_FILE } from 'queries/folder';
 import { useMutation } from '@apollo/client';
-import { File as FileModel } from 'utils/models/file';
+import { File as FileModel } from 'utils/models/folder';
 import { useParams } from 'react-router-dom';
 
 export interface IFileModalProps {
@@ -24,12 +24,21 @@ export const FileModal = (props: IFileModalProps) => {
 
   const { show, onClose, file } = props;
 
-  const [uploadFile] = useMutation(UPLOAD_FILE);
+  const [uploadFile] = useMutation(UPLOAD_FILE, {
+    refetchQueries: [
+      {
+        query: FOLDERS,
+        variables: {
+          parent_id,
+        }
+      }
+    ]
+  });
 
   const [updateFile] = useMutation(UPDATE_FILE, {
     refetchQueries: [
       {
-        query: FILES,
+        query: FOLDERS,
         variables: {
           parent_id,
         }

@@ -14,6 +14,10 @@ export const FOLDERS = gql`
     folders(parent_id: $parent_id) {
       _id
       name
+    },
+    files(folder_id: $parent_id) {
+      _id
+      name
     }
   }
 `;
@@ -40,6 +44,32 @@ export const BREADCRUMB = gql`
     breadcrumb(id: $folder_id) {
       _id
       name
+    }
+  }
+`
+
+export const UPLOAD_FILE = gql`
+  mutation uploadFile($data: UploadFileInput!) {
+    uploadFile(uploadFileInput: $data) {
+      _id
+      name
+    }
+  }
+`;
+
+export const UPDATE_FILE = gql`
+  mutation updateFile($updateFileInput: UpdateFileInput!) {
+    updateFile(updateFileInput: $updateFileInput) {
+      _id
+      name
+    }
+  }
+`;
+
+export const DELETE_FILE = gql`
+  mutation deleteFile($id: String!) {
+    deleteFile(id: $id) {
+      _id
     }
   }
 `

@@ -7,16 +7,14 @@ import { Row, Col, Spinner, Breadcrumb } from 'react-bootstrap';
 import { Folder } from 'components/Pages/Folders/Folder';
 import { File } from 'components/Pages/Folders/File';
 import { FolderModal } from 'components/Pages/Folders/modals/FolderModal';
-import { FILES } from 'queries/file';
-import { FilesResponse, File as FileModel } from 'utils/models/file';
-import { Folder as FolderModel } from 'utils/models/folder';
+import { Folder as FolderModel, File as FileModel } from 'utils/models/folder';
 import { FileModal } from 'components/Pages/Folders/modals/FileModal';
 import { 
   IFileModalState,
   IFolderModalState,
   IDeleteData,
   IDeleteModalState
-} from 'utils/models/folder/folder-modal';
+} from 'components/Pages/Folders/models';
 import { DeleteModal } from 'components/Pages/Folders/modals/DeleteModal';
 
 export const Folders = () => {
@@ -29,12 +27,6 @@ export const Folders = () => {
   const { loading: folderLoading, data: folderData } = useQuery<FoldersResponse>(FOLDERS, {
     variables: {
       parent_id
-    }
-  });
-
-  const { loading: fileLoading, data: filesData } = useQuery<FilesResponse>(FILES, {
-    variables: {
-      folder_id: parent_id
     }
   });
 
@@ -79,7 +71,7 @@ export const Folders = () => {
         </Breadcrumb>
       }
       <div className='mb-2 mt-2'>
-        {(folderLoading || fileLoading) && <Row className='text-center'>
+        {(folderLoading) && <Row className='text-center'>
             <Col>
               <Spinner variant='primary'/>
             </Col>
@@ -102,7 +94,7 @@ export const Folders = () => {
         <hr/>
         <div className='mb-2 mt-2'>
           <Row>
-            {!fileLoading && filesData?.files.map(file => (
+            {!folderLoading && folderData?.files.map(file => (
               <Col xs={2} key={file._id}>
                 <File
                   data={file}

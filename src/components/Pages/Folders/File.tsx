@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { BsFillFileEarmarkFill } from 'react-icons/bs';
-import { File as FileModel } from 'utils/models/file';
-import { IDeleteData } from 'utils/models/folder/folder-modal';
+import { File as FileModel } from 'utils/models/folder';
+import { IDeleteData } from 'components/Pages/Folders/models';
 
 interface IFileProps {
   data: FileModel;
