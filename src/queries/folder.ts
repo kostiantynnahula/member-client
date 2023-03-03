@@ -10,12 +10,12 @@ export const CREATE_FOLDER = gql`
 `;
 
 export const FOLDERS = gql`
-  query getFolders($parent_id: String) {
-    folders(parent_id: $parent_id) {
+  query getFolders($folder_id: String) {
+    folders(folder_id: $folder_id) {
       _id
       name
     },
-    files(folder_id: $parent_id) {
+    files(folder_id: $folder_id) {
       _id
       name
     }

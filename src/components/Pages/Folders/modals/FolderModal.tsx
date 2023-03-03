@@ -23,7 +23,7 @@ export const FolderModal = ({
   onClose,
 }: IFolderModalProps) => {
 
-  const { id: parent_id = null } = useParams();
+  const { id: folder_id = null } = useParams();
 
   const [initialValues, setInitialValues] = useState<IFormValues>({
     name: ''
@@ -46,7 +46,7 @@ export const FolderModal = ({
       {
         query: FOLDERS,
         variables: {
-          parent_id
+          folder_id
         }
       }
     ]
@@ -58,7 +58,7 @@ export const FolderModal = ({
         folderData: {
           _id: folder?._id,
           name: values.name,
-          parentId: parent_id,
+          parentId: folder_id,
         }
       }
     });

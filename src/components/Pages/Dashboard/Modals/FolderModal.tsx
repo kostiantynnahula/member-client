@@ -12,14 +12,14 @@ export const FolderModal = (props: IFolderModalProps) => {
 
   const { show, setModalShow } = props;
 
-  const { id: parent_id = null } = useParams();
+  const { id: folder_id = null } = useParams();
   
   const [createFolder] = useMutation<CreateFolderResponse>(CREATE_FOLDER, {
     refetchQueries: [
       {
         query: FOLDERS,
         variables: {
-          parent_id
+          folder_id
         }
       }
     ],
@@ -38,7 +38,7 @@ export const FolderModal = (props: IFolderModalProps) => {
   const onSubmit = (values: IFormValues) => {
     createFolder({
       variables: { 
-        folderData: { ...values, parent_id }
+        folderData: { ...values, folder_id }
       }
     });
     setModalShow(false);

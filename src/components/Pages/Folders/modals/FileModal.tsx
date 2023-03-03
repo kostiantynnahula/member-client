@@ -20,7 +20,7 @@ export interface IFormValues {
 
 export const FileModal = (props: IFileModalProps) => {
 
-  const { id: parent_id = null } = useParams();
+  const { id: folder_id = null } = useParams();
 
   const { show, onClose, file } = props;
 
@@ -29,7 +29,7 @@ export const FileModal = (props: IFileModalProps) => {
       {
         query: FOLDERS,
         variables: {
-          parent_id,
+          folder_id,
         }
       }
     ]
@@ -40,7 +40,7 @@ export const FileModal = (props: IFileModalProps) => {
       {
         query: FOLDERS,
         variables: {
-          parent_id,
+          folder_id,
         }
       }
     ]
@@ -78,7 +78,10 @@ export const FileModal = (props: IFileModalProps) => {
     } else {
       uploadFile({
         variables: {
-          data: {...values},
+          data: {
+            ...values,
+            folder_id,
+          },
         }
       });
     }

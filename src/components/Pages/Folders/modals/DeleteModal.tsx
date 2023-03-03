@@ -11,14 +11,14 @@ export const DeleteModal = ({
   onClose,
 }: IDeleteModalProps) => {
 
-  const { id: parent_id = null } = useParams();
+  const { id: folder_id = null } = useParams();
 
   const [deleteFolder] = useMutation(DELETE_FOLDER, {
     refetchQueries: [
       {
         query: FOLDERS,
         variables: {
-          parent_id
+          folder_id
         }
       }
     ]
@@ -29,7 +29,7 @@ export const DeleteModal = ({
       {
         query: FOLDERS,
         variables: {
-          parent_id,
+          folder_id,
         }
       }
     ]

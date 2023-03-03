@@ -19,20 +19,20 @@ import { DeleteModal } from 'components/Pages/Folders/modals/DeleteModal';
 
 export const Folders = () => {
 
-  const { id: parent_id = null } = useParams();
+  const { id: folder_id = null } = useParams();
   const [ fileModal, setFileModal ] = useState<IFileModalState>({ show: false });
   const [ folderModal, setFolderModal ] = useState<IFolderModalState>({ show: false });
   const [ deleteModal, setDeleteModal ] = useState<IDeleteModalState>({ show: false, type: '' });
 
   const { loading: folderLoading, data: folderData } = useQuery<FoldersResponse>(FOLDERS, {
     variables: {
-      parent_id
+      folder_id
     }
   });
 
   const { data: breadcrumbData } = useQuery<BreadcrumbResponse>(BREADCRUMB, {
     variables: {
-      folder_id: parent_id,
+      folder_id: folder_id,
     }
   });
 
@@ -50,7 +50,7 @@ export const Folders = () => {
 
   return (
     <>
-      {parent_id &&
+      {folder_id &&
         <Breadcrumb>
           <Breadcrumb.Item
             linkAs={Link}
