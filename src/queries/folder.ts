@@ -9,11 +9,26 @@ export const CREATE_FOLDER = gql`
   }
 `;
 
+export const FOLDER = gql`
+  query getFolder($id: String!) {
+    folder(id: $id) {
+      _id
+      name
+    }
+  }
+`;
+
 export const FOLDERS = gql`
   query getFolders($folder_id: String) {
     folders(folder_id: $folder_id) {
-      _id
-      name
+      list {
+        _id
+        name
+      }
+      parents {
+        _id
+        name
+      }
     },
     files(folder_id: $folder_id) {
       _id
@@ -38,15 +53,6 @@ export const UPDATE_FOLDER = gql`
     }
   }
 `;
-
-export const BREADCRUMB = gql`
-  query breadcrumb($folder_id: String!) {
-    breadcrumb(id: $folder_id) {
-      _id
-      name
-    }
-  }
-`
 
 export const UPLOAD_FILE = gql`
   mutation uploadFile($data: UploadFileInput!) {

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { FOLDERS, BREADCRUMB } from 'queries/folder';
-import { FoldersResponse, BreadcrumbResponse } from 'utils/models/folder';
+import { FOLDERS } from 'queries/folder';
+import { FoldersResponse } from 'utils/models/folder';
 import { Row, Col, Spinner, Breadcrumb } from 'react-bootstrap';
 import { Folder } from 'components/Pages/Folders/Folder';
 import { File } from 'components/Pages/Folders/File';
@@ -13,7 +13,7 @@ import {
   IFileModalState,
   IFolderModalState,
   IDeleteData,
-  IDeleteModalState
+  IDeleteModalState,
 } from 'components/Pages/Folders/models';
 import { DeleteModal } from 'components/Pages/Folders/modals/DeleteModal';
 
@@ -27,12 +27,6 @@ export const Folders = () => {
   const { loading: folderLoading, data: folderData } = useQuery<FoldersResponse>(FOLDERS, {
     variables: {
       folder_id
-    }
-  });
-
-  const { data: breadcrumbData } = useQuery<BreadcrumbResponse>(BREADCRUMB, {
-    variables: {
-      folder_id: folder_id,
     }
   });
 
@@ -58,7 +52,7 @@ export const Folders = () => {
               to: '/'
             }}
           >Home</Breadcrumb.Item>
-          {breadcrumbData?.breadcrumb.map((breadcrumb, i) => (
+          {folderData?.folders.parents.map((breadcrumb, i) => (
             <Breadcrumb.Item
               key={i}
               linkAs={Link}
@@ -78,7 +72,7 @@ export const Folders = () => {
           </Row>
         }
         <Row>
-          {!folderLoading && folderData?.folders.map((folder) => (
+          {!folderLoading && folderData?.folders.list.map((folder) => (
             <Col xs={2} key={folder._id}>
               <Folder
                 data={folder}
@@ -87,7 +81,7 @@ export const Folders = () => {
               />
             </Col>
           ))}
-          {!folderLoading && !folderData?.folders.length && <>
+          {!folderLoading && !folderData?.folders.list.length && <>
             <p className='text-center'>Folder is empty</p>
           </>}
         </Row>

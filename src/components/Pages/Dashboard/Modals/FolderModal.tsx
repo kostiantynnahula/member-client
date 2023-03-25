@@ -1,19 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import { useMutation } from '@apollo/client';
-import { CREATE_FOLDER, FOLDERS } from 'queries/folder';
-import { CreateFolderResponse } from 'utils/models/folder';
+import { useMutation, useQuery } from '@apollo/client';
+import { CREATE_FOLDER, FOLDERS, FOLDER } from 'queries/folder';
+import { CreateFolderResponse, FoldersResponse, Folder } from 'utils/models/folder';
 import * as yup from 'yup';
 import { IFolderModalProps, IFormValues } from 'components/Pages/Folders/models';
 import { useParams } from 'react-router-dom';
+import { apolloClient } from 'configs/apolloClient';
 
 export const FolderModal = (props: IFolderModalProps) => {
 
   const { show, setModalShow } = props;
 
   const { id: folder_id = null } = useParams();
+
+  const [ parents, setParents ] = useState<Folder[]>([]);
   
+  const { data } = useQuery(FOLDER, {
+    variables: {
+      id: folder_id,
+    },
+    skip: !folder_id,
+  });
+
   const [createFolder] = useMutation<CreateFolderResponse>(CREATE_FOLDER, {
     refetchQueries: [
       {
@@ -23,7 +33,26 @@ export const FolderModal = (props: IFolderModalProps) => {
         }
       }
     ],
-  })
+  });
+
+  const foldersCache = apolloClient.readQuery<FoldersResponse>({
+    query: FOLDERS,
+    variables: {
+      folder_id
+    }
+  });
+
+  useEffect(() => {
+    const folderParents = foldersCache?.folders.parents
+      .map<Folder>(item => ({ _id: item._id, name: item.name })) || [];
+
+    if (data) {
+      const { _id, name } = data.folder;
+      folderParents.push({ _id, name, closest: true });
+    }
+
+    setParents(folderParents);
+  }, [data, foldersCache])
 
   const [initialValues] = useState<IFormValues>({
     name: '',
@@ -36,9 +65,10 @@ export const FolderModal = (props: IFolderModalProps) => {
   });
 
   const onSubmit = (values: IFormValues) => {
+    const folderData = { ...values, parents };
     createFolder({
       variables: { 
-        folderData: { ...values, folder_id }
+        folderData
       }
     });
     setModalShow(false);

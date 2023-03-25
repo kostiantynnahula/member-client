@@ -1,6 +1,12 @@
 export interface Folder {
   _id: string;
   name: string;
+  closest?: boolean;
+}
+
+export interface FoldersListResponse {
+  list: Folder[];
+  parents: Folder[];
 }
 
 export interface CreateFolderResponse {
@@ -8,8 +14,12 @@ export interface CreateFolderResponse {
 }
 
 export interface FoldersResponse {
-  folders: Folder[];
+  folders: FoldersListResponse;
   files: File[];
+}
+
+export interface FolderResponse {
+  folder: Folder;
 }
 
 export interface BreadcrumbResponse {
