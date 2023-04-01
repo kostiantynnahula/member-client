@@ -13,4 +13,14 @@
       display: none !important;
     }
   }
+
+  .ellips-overflow {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: 0.2vw;
+  }
+
+  svg {
+    vertical-align: text-top;
+  }
 }

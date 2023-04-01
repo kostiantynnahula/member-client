@@ -18,7 +18,14 @@ export const Folder= ({
   onDelete,
 }: IFolderProp) => {
 
-  const title = (<><BsFolderFill/> {data.name}</>);
+  const title = (
+    <div className='d-flex pt-2 pb-2'>
+      <div><BsFolderFill/></div>
+      <div className='overflow-hidden ellips-overflow'>
+        <span className=''>{data.name}</span>
+      </div>
+    </div>
+  );
 
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 

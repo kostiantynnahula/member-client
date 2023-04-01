@@ -17,7 +17,16 @@ export const File = ({
 }: IFileProps) => {
   
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const title = (<><BsFillFileEarmarkFill/><span>{data.name}</span></>);
+  const title = (
+    <div className='d-flex pt-2 pb-2'>
+      <div className='mr-1'>
+        <BsFillFileEarmarkFill/>
+      </div>
+      <div className='overflow-hidden ellips-overflow'>
+        <span>{data.name}</span>
+      </div>
+    </div>
+  );
 
   const onOpenContextMenu = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();

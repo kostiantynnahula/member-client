@@ -14,7 +14,7 @@ interface IFormValues {
 interface IFolderModalProps {
   folder?: Folder;
   show: boolean;
-  onClose: () => void,
+  onClose: () => void;
 }
 
 export const FolderModal = ({
@@ -58,7 +58,6 @@ export const FolderModal = ({
         folderData: {
           _id: folder?._id,
           name: values.name,
-          parentId: folder_id,
         }
       }
     });
