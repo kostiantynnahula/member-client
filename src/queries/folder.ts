@@ -33,6 +33,9 @@ export const FOLDERS = gql`
     files(folder_id: $folder_id) {
       _id
       name
+      location
+      key
+      mimetype
     }
   }
 `;
