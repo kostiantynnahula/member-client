@@ -81,11 +81,11 @@ export const Folders = () => {
               />
             </Col>
           ))}
-          {!folderLoading && !folderData?.folders.list.length && <>
+          {!folderLoading && !folderData?.folders.list.length && !folderData?.files.length && <>
             <p className='text-center'>Folder is empty</p>
           </>}
         </Row>
-        <hr/>
+        {!!folderData?.folders.list.length && <hr/>}
         <div className='mb-2 mt-2'>
           <Row>
             {!folderLoading && folderData?.files.map(file => (
