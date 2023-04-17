@@ -8,12 +8,14 @@ interface IFileProps {
   data: FileModel;
   onEdit: (data: FileModel) => void;
   onDelete: (data: IDeleteData, type: string) => void;
+  onPreview: () => void;
 }
 
 export const File = ({
   data,
   onEdit,
   onDelete,
+  onPreview
 }: IFileProps) => {
   
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -33,6 +35,14 @@ export const File = ({
     setMenuOpen(true);
   }
 
+  const onDownload = (data: FileModel) => {
+    window.open(data.location, '_blank');
+  }
+
+  const [mimetype] = data.mimetype.split('/');
+
+  const isPreviewFile = ['image', 'video'].includes(mimetype); 
+
   return (
     <div className='file-item mt-1 mb-1'>
       <DropdownButton
@@ -43,6 +53,8 @@ export const File = ({
       >
         <Dropdown.Item onClick={() => onEdit(data)}>Edit</Dropdown.Item>
         <Dropdown.Item onClick={() => onDelete(data, 'file')}>Delete</Dropdown.Item>
+        <Dropdown.Item onClick={() => onDownload(data)}>Download</Dropdown.Item>
+        {isPreviewFile && <Dropdown.Item onClick={() => onPreview()}>Prview</Dropdown.Item>}
       </DropdownButton>
     </div>
   );

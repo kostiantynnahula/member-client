@@ -14,8 +14,10 @@ import {
   IFolderModalState,
   IDeleteData,
   IDeleteModalState,
+  IPreviewModalState
 } from 'components/Pages/Folders/models';
 import { DeleteModal } from 'components/Pages/Folders/modals/DeleteModal';
+import { PreviewModal } from 'components/Pages/Folders/modals/PreviewModal';
 
 export const Folders = () => {
 
@@ -23,6 +25,7 @@ export const Folders = () => {
   const [ fileModal, setFileModal ] = useState<IFileModalState>({ show: false });
   const [ folderModal, setFolderModal ] = useState<IFolderModalState>({ show: false });
   const [ deleteModal, setDeleteModal ] = useState<IDeleteModalState>({ show: false, type: '' });
+  const [ previewModal, setPreviewModal ] = useState<IPreviewModalState>({ show: false });
 
   const { loading: folderLoading, data: folderData } = useQuery<FoldersResponse>(FOLDERS, {
     variables: {
@@ -94,6 +97,7 @@ export const Folders = () => {
                   data={file}
                   onEdit={onEditFile}
                   onDelete={onDeleteData}
+                  onPreview={() => setPreviewModal({ show: true, file })}
                 />
               </Col>
             ))}
@@ -115,6 +119,11 @@ export const Folders = () => {
         show={deleteModal.show}
         data={deleteModal.data}
         onClose={() => setDeleteModal({ show: false })}
+      />
+      <PreviewModal
+        show={previewModal.show}
+        file={previewModal.file}
+        onClose={() => setPreviewModal({ show: false })}
       />
     </>
   );   

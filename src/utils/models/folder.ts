@@ -30,4 +30,6 @@ export interface File {
   _id: string;
   name: string;
   folder_id: string;
+  location: string;
+  mimetype: string;
 }

@@ -44,3 +44,12 @@ export interface IDeleteModalProps {
   data?: IDeleteData;
   onClose: () => void;
 }
+
+export interface IPreviewModalState {
+  show: boolean;
+  file?: File;
+}
+
+export interface IPreviewModalProps extends IPreviewModalState {
+  onClose: () => void;
+}
