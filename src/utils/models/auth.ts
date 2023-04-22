@@ -19,8 +19,15 @@ export interface AuthProfile {
 
 export interface AuthProfileCache {
   profile: AuthProfile;
+  organizations: Organization[];
 }
 
 export interface UpdateProfileCache {
   updateProfile: AuthProfile;
+}
+
+export interface Organization {
+  _id: string;
+  name: string;
+  description: string;
 }

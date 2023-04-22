@@ -24,6 +24,11 @@ export const GET_AUTH_PROFILE = gql`
       _id
       email
       username
+    },
+    organizations {
+      _id
+      name
+      description
     }
   }
 `;

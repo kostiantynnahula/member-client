@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { CREATE_ORGANIZATION } from 'queries/organization';
+import { useMutation } from '@apollo/client';
 
 interface OrganizationModalProps {
   show: boolean,
@@ -18,7 +20,9 @@ export const OrganizationModal = ({
   setShow
 }: OrganizationModalProps) => {
 
-  const [initialValues, setInitialValues] = useState<IFormValues>({
+  const [ createOrganization ] = useMutation(CREATE_ORGANIZATION);
+
+  const [initialValues] = useState<IFormValues>({
     name: '',
     description: '',
   });
@@ -30,8 +34,16 @@ export const OrganizationModal = ({
   });
 
   const onSubmit = (values: IFormValues) => {
-    console.log(values, 'on submit');
     setShow(false);
+    createOrganization({
+      variables: {
+        organizationInput: {
+          name: values.name,
+          description: values.description,
+        }
+      }
+    });
+    resetForm();
   };
 
   const {

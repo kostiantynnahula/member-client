@@ -32,6 +32,9 @@ export const Navbar = () => {
           <BootstrapNavbar.Brand as={Link} to='/'>Member</BootstrapNavbar.Brand>
           <Nav className="justify-content-end">
             <NavDropdown title="Organization">
+              {data?.organizations.map(organization => (
+                <NavDropdown.Item>{organization.name}</NavDropdown.Item>  
+              ))}
               <NavDropdown.Item onClick={() => setShow(true)}>Add new one</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link 
