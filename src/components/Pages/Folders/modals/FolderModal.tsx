@@ -108,8 +108,8 @@ export const FolderModal = ({
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => onClose()}>Close</Button>
-          <Button variant="primary" type='submit'>
+          <Button variant='secondary' onClick={() => onClose()}>Close</Button>
+          <Button variant='primary' type='submit'>
             Save
           </Button>
         </Modal.Footer>
