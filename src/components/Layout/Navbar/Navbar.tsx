@@ -5,7 +5,7 @@ import {
   Navbar as BootstrapNavbar,
   NavDropdown,
 } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { GET_AUTH_PROFILE } from 'queries/auth';
 import { useQuery } from '@apollo/client';
 import { AuthProfileCache } from 'utils/models/auth';
@@ -19,6 +19,9 @@ export const Navbar = () => {
   const { data } = useQuery<AuthProfileCache>(GET_AUTH_PROFILE);
   const { setAuth } = useContext(AuthContext);
   const [show, setShow] = useState<boolean>(false);
+  const { orgId = null } = useParams();
+  
+  const organization = data?.organizations.find(org => org._id === orgId) || null;
 
   const onLogout = () => {
     LocalStorageService.clearAuth();
@@ -30,10 +33,16 @@ export const Navbar = () => {
       <BootstrapNavbar bg="light" variant="light">
         <Container>
           <BootstrapNavbar.Brand as={Link} to='/'>Member</BootstrapNavbar.Brand>
+          {organization && <Nav className="me-auto">
+            <Nav.Link as={Link} to={`/organization/${organization._id}/edit`}>({organization.name})</Nav.Link>
+          </Nav>}
           <Nav className="justify-content-end">
             <NavDropdown title="Organization">
               {data?.organizations.map(organization => (
-                <NavDropdown.Item>{organization.name}</NavDropdown.Item>  
+                <NavDropdown.Item 
+                  as={Link} 
+                  to={`/organization/${organization._id}`}
+                >{organization.name}</NavDropdown.Item>  
               ))}
               <NavDropdown.Item onClick={() => setShow(true)}>Add new one</NavDropdown.Item>
             </NavDropdown>

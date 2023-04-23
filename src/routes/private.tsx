@@ -4,6 +4,7 @@ import { Dashboard } from 'components/Pages/Dashboard/Dashboard';
 import { Folders } from 'components/Pages/Folders/Folders';
 import { Profile } from 'components/Pages/Profile/Profile';
 import { Root } from 'components/Layout/Root/Root';
+import { OrganizationEdit } from 'components/Pages/Organization/OrganizationEdit';
 
 export const privateRoutes = createBrowserRouter([
   {
@@ -22,12 +23,24 @@ export const privateRoutes = createBrowserRouter([
           {
             path: 'folder/:id',
             element: <Folders/>
+          },
+          {
+            path: 'organization/:orgId',
+            element: <Folders/>,
+          },
+          {
+            path: 'organization/:orgId/folder/:id',
+            element: <Folders/>,
           }
         ]
       },
       {
         path: 'profile',
         element: <Profile/>
+      },
+      {
+        path: '/organization/:orgId/edit',
+        element: <OrganizationEdit/>,
       }
     ] 
   } 
