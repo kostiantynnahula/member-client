@@ -132,7 +132,7 @@ export const FileModal = (props: IFileModalProps) => {
               onChange={handleChange}
               onBlur={handleBlur}
               isInvalid={!!errors.name && touched.name}
-              />
+            />
             <Form.Control.Feedback type="invalid">
               {errors.name}
             </Form.Control.Feedback>

@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { ORGANIZATION } from 'queries/organization';
 import { OrganizationResponse } from 'utils/models/auth';
 import { useQuery } from '@apollo/client';
-
+import { EditForm } from 'components/Pages/Organization/EditForm';
 
 export const OrganizationEdit = () => {
   const { orgId = null } = useParams();
@@ -12,18 +12,13 @@ export const OrganizationEdit = () => {
     }
   });
 
-  console.log(data?.organization);
-
   return (
     <div>
       {!loading && data?.organization && <>
-        <div><b>Organization name:</b> {data.organization.name}</div>
-        <div><b>Organization description:</b> {data.organization.description}</div>
-        <ul>
-          {data.organization.members.map(member => (
-            <li>{member.username} [{member.role}]</li>
-          ))}
-        </ul>
+        <h2>Organization: <i>{data.organization.name}</i></h2> 
+        <EditForm
+          organization={data.organization}
+        />
       </>}
     </div>
   );
