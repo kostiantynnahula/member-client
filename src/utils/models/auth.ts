@@ -30,4 +30,16 @@ export interface Organization {
   _id: string;
   name: string;
   description: string;
+  members: Member[];
+}
+
+export interface Member {
+  _id: string;
+  username: string;
+  email: string;
+  role: string;
+}
+
+export interface OrganizationResponse {
+  organization: Organization;
 }

@@ -16,6 +16,28 @@ export const ORGANIZATIONS = gql`
       _id
       name
       description
+      members {
+        _id
+        username
+        email
+        role
+      }
+    }
+  }
+`;
+
+export const ORGANIZATION = gql`
+  query getOrganization($id: String!) {
+    organization(id: $id) {
+      _id
+      name
+      description
+      members {
+        _id
+        username
+        email
+        role
+      }
     }
   }
 `;
