@@ -41,3 +41,13 @@ export const ORGANIZATION = gql`
     }
   }
 `;
+
+export const UPDATE_ORGANIZATION = gql`
+  mutation updateOrganization($id: String!, $updateOrganizationInput: OrganizationInput!) {
+    updateOrganization(id: $id, updateOrganizationInput: $updateOrganizationInput) {
+      _id
+      name
+      description
+    }
+  }
+`

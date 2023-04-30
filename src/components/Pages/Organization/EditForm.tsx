@@ -4,6 +4,9 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Organization } from 'utils/models/auth';
 import Select from 'react-select';
+import { UPDATE_ORGANIZATION, ORGANIZATION } from 'queries/organization';
+import { useMutation } from '@apollo/client';
+import { useParams } from 'react-router-dom';
 
 export interface IProps {
   organization: Organization;
@@ -24,15 +27,27 @@ export const EditForm = ({
   organization
 }: IProps) => {
   
+  const { orgId } = useParams();
+
   useEffect(() => {
-    
     const members = organization.members.map(member => ({ label: member.username, value: member._id }))
     setInitialValues({
       name: organization.name,
       description: organization.description,
       members 
     })
-  }, [organization])
+  }, [organization]);
+
+  const [updateOrganization] = useMutation(UPDATE_ORGANIZATION, {
+    refetchQueries: [
+      {
+        query: ORGANIZATION,
+        variables: {
+          id: orgId
+        }
+      }
+    ]
+  });
 
   const [initialValues, setInitialValues] = useState<IFormValues>({
     name: '',
@@ -46,7 +61,16 @@ export const EditForm = ({
   });
 
   const onSubmit = (data: IFormValues) => {
-    console.log(data, 'form values');
+    updateOrganization({
+      variables: {
+        updateOrganizationInput: {
+          name: data.name,
+          description: data.description,
+        },
+        id: orgId,
+      }
+    });
+    resetForm();
   }
 
   const {
