@@ -2,25 +2,21 @@ import { useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Organization } from 'utils/models/auth';
-import Select from 'react-select';
+import { Organization, Member } from 'utils/models/auth';
 import { UPDATE_ORGANIZATION, ORGANIZATION } from 'queries/organization';
 import { useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
+import { EditMemberModal } from './EditMemberModal';
+import { InviteModal } from './InviteModal';
 
 export interface IProps {
   organization: Organization;
 }
 
-export interface IMemberOption {
-  label: string;
-  value: string;
-}
-
-export interface IFormValues {
+interface IFormValues {
   name: string;
   description: string;
-  members: IMemberOption[];
+  members: Member[];
 }
 
 export const EditForm = ({
@@ -30,12 +26,11 @@ export const EditForm = ({
   const { orgId } = useParams();
 
   useEffect(() => {
-    const members = organization.members.map(member => ({ label: member.username, value: member._id }))
     setInitialValues({
       name: organization.name,
       description: organization.description,
-      members 
-    })
+      members: organization.members,
+    });
   }, [organization]);
 
   const [updateOrganization] = useMutation(UPDATE_ORGANIZATION, {
@@ -48,6 +43,23 @@ export const EditForm = ({
       }
     ]
   });
+
+  const [memberModal, setMemberModal] = useState<boolean>(false);  
+  const [editMember, setEditMember] = useState<Member | null>(null);
+  const [inviteModal, setInviteModal] = useState<boolean>(false);
+
+  const onEditMember = (member: Member) => {
+    setMemberModal(true);
+    setEditMember(member);
+  }
+
+  const handleEditMember = (member: Member) => {
+    console.log(member, 'handle edit member');
+  }
+
+  const handleInviteMember = (email: string) => {
+    console.log(email, 'handle invite member');
+  }
 
   const [initialValues, setInitialValues] = useState<IFormValues>({
     name: '',
@@ -107,6 +119,9 @@ export const EditForm = ({
             onBlur={handleBlur}
             isInvalid={!!errors.name && touched.name}
           />
+          <Form.Control.Feedback type="invalid">
+            {errors.name}
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className='mb-3'>
           <Form.Label>Description:</Form.Label>
@@ -120,18 +135,51 @@ export const EditForm = ({
             onBlur={handleBlur}
             isInvalid={!!errors.description && touched.description}
           />
+          <Form.Control.Feedback type="invalid">
+            {errors.description}
+            </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className='mb-3'>
-          <Select
-            isMulti={true}
-            value={values.members}
-            options={values.members}
-          />
+          <ul>
+            {organization.members.map((member, key) => (
+              <li key={key}>
+                <>
+                  {member.username} <i>({member.email})</i> - <b>[{member.role}]</b> 
+                  <Button 
+                    variant='outline-primary'
+                    className='m-1'
+                    onClick={() => onEditMember(member)}
+                  >Edit</Button>
+                  <Button variant='outline-danger'>Delete</Button>
+                </>
+              </li>
+            ))}
+          </ul>
         </Form.Group>
         <Form.Group>
           <Button type='submit'>Submit</Button>
         </Form.Group>
       </Form>
+      <hr/>
+      <div>
+        <h3>Invites</h3>
+        <p className='text-center'>Invites list is empty</p>
+        <Button   
+          variant='outline-primary'
+          onClick={() => setInviteModal(true)}
+        >Invite new</Button>
+      </div>
+      <EditMemberModal
+        show={memberModal}
+        setShow={setMemberModal}
+        member={editMember}
+        handleEditMember={handleEditMember}
+      />
+      <InviteModal
+        show={inviteModal}
+        setShow={setInviteModal}
+        handleInviteMember={handleInviteMember}
+      />
     </>
   );
 }
