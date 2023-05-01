@@ -8,6 +8,7 @@ import { useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { EditMemberModal } from './EditMemberModal';
 import { InviteModal } from './InviteModal';
+import { DeleteModal } from './DeleteModal';
 
 export interface IProps {
   organization: Organization;
@@ -47,11 +48,18 @@ export const EditForm = ({
   const [memberModal, setMemberModal] = useState<boolean>(false);  
   const [editMember, setEditMember] = useState<Member | null>(null);
   const [inviteModal, setInviteModal] = useState<boolean>(false);
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [deleteMember, setDeleteMember] = useState<Member | null>(null);
 
   const onEditMember = (member: Member) => {
     setMemberModal(true);
     setEditMember(member);
   }
+
+  const onDeleteMember = (member: Member) => {
+    setDeleteModal(true);
+    setDeleteMember(member);
+  };
 
   const handleEditMember = (member: Member) => {
     console.log(member, 'handle edit member');
@@ -59,6 +67,10 @@ export const EditForm = ({
 
   const handleInviteMember = (email: string) => {
     console.log(email, 'handle invite member');
+  }
+
+  const handleDeleteMember = () => {
+    console.log(deleteMember, 'handle delete member');
   }
 
   const [initialValues, setInitialValues] = useState<IFormValues>({
@@ -150,7 +162,10 @@ export const EditForm = ({
                     className='m-1'
                     onClick={() => onEditMember(member)}
                   >Edit</Button>
-                  <Button variant='outline-danger'>Delete</Button>
+                  <Button 
+                    variant='outline-danger'
+                    onClick={() => onDeleteMember(member)}
+                  >Delete</Button>
                 </>
               </li>
             ))}
@@ -179,6 +194,12 @@ export const EditForm = ({
         show={inviteModal}
         setShow={setInviteModal}
         handleInviteMember={handleInviteMember}
+      />
+      <DeleteModal
+        show={deleteModal}
+        setShow={setDeleteModal}
+        onSubmit={handleDeleteMember}
+        member={deleteMember}
       />
     </>
   );

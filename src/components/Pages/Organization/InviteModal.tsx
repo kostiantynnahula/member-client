@@ -74,8 +74,8 @@ export const InviteModal = ({
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => setShow(false)}>Close</Button>
-          <Button type='submit'>Submit</Button>
+          <Button variant='outline-danger' onClick={() => setShow(false)}>Close</Button>
+          <Button variant='outline-primary' type='submit'>Submit</Button>
         </Modal.Footer>
       </Form>
     </Modal>
