@@ -65,10 +65,6 @@ export const EditForm = ({
     console.log(member, 'handle edit member');
   }
 
-  const handleInviteMember = (email: string) => {
-    console.log(email, 'handle invite member');
-  }
-
   const handleDeleteMember = () => {
     console.log(deleteMember, 'handle delete member');
   }
@@ -193,7 +189,6 @@ export const EditForm = ({
       <InviteModal
         show={inviteModal}
         setShow={setInviteModal}
-        handleInviteMember={handleInviteMember}
       />
       <DeleteModal
         show={deleteModal}

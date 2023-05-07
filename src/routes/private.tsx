@@ -5,6 +5,7 @@ import { Folders } from 'components/Pages/Folders/Folders';
 import { Profile } from 'components/Pages/Profile/Profile';
 import { Root } from 'components/Layout/Root/Root';
 import { OrganizationEdit } from 'components/Pages/Organization/OrganizationEdit';
+import { Invite } from 'components/Pages/Organization/Invite';
 
 export const privateRoutes = createBrowserRouter([
   {
@@ -39,8 +40,12 @@ export const privateRoutes = createBrowserRouter([
         element: <Profile/>
       },
       {
-        path: '/organization/:orgId/edit',
+        path: 'organization/:orgId/edit',
         element: <OrganizationEdit/>,
+      },
+      {
+        path: 'invite/:token',
+        element: <Invite/>,
       }
     ] 
   } 

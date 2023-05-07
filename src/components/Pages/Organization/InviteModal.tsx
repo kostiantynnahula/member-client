@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { CREATE_INVITE } from 'queries/invite';
+import { useMutation } from '@apollo/client';
+import { useParams } from 'react-router-dom';
 
 interface IProps {
   show: boolean,
@@ -16,8 +19,9 @@ interface IFormValues {
 export const InviteModal = ({
   show,
   setShow,
-  handleInviteMember,
 }: IProps) => {
+
+  const { orgId } = useParams();
 
   const [initialValues] = useState<IFormValues>({
     email: '',
@@ -27,8 +31,17 @@ export const InviteModal = ({
     email: yup.string().required().email(),
   });
 
+  const [createInvite] = useMutation(CREATE_INVITE);
+
   const onSubmit = (data: IFormValues) => {
-    handleInviteMember(data.email);
+    createInvite({
+      variables: {
+        inviteData: {
+          email: data.email,
+          orgId
+        }
+      }
+    });
     resetForm();
     setShow(false);
   }
