@@ -9,7 +9,6 @@ import { useParams } from 'react-router-dom';
 interface IProps {
   show: boolean,
   setShow: (show: boolean) => void;
-  handleInviteMember: (email: string) => void
 }
 
 interface IFormValues {

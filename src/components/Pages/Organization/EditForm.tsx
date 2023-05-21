@@ -4,11 +4,13 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Organization, Member } from 'utils/models/auth';
 import { UPDATE_ORGANIZATION, ORGANIZATION } from 'queries/organization';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { EditMemberModal } from './EditMemberModal';
 import { InviteModal } from './InviteModal';
 import { DeleteModal } from './DeleteModal';
+import { ORGANIZATION_INVITES } from 'queries/invite';
+import { OrganizationInvitesResponse } from 'utils/models/organization';
 
 export interface IProps {
   organization: Organization;
@@ -43,6 +45,12 @@ export const EditForm = ({
         }
       }
     ]
+  });
+
+  const { data, loading } = useQuery<OrganizationInvitesResponse>(ORGANIZATION_INVITES, {
+    variables: {
+      orgId,
+    }
   });
 
   const [memberModal, setMemberModal] = useState<boolean>(false);  

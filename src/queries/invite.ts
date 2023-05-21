@@ -8,3 +8,16 @@ export const CREATE_INVITE = gql`
     }
   }
 `;
+
+export const ORGANIZATION_INVITES = gql`
+  query invites($orgId: String!) {
+    orgInvites(_id: $orgId) {
+      _id
+      status
+      from
+      to
+      secret
+      organization
+    }
+  }
+`;
