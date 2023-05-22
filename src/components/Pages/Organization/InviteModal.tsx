@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { CREATE_INVITE } from 'queries/invite';
+import { CREATE_INVITE, ORGANIZATION_INVITES } from 'queries/invite';
 import { useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 
@@ -30,7 +30,16 @@ export const InviteModal = ({
     email: yup.string().required().email(),
   });
 
-  const [createInvite] = useMutation(CREATE_INVITE);
+  const [createInvite] = useMutation(CREATE_INVITE, {
+    refetchQueries: [
+      {
+        query: ORGANIZATION_INVITES,
+        variables: {
+          orgId
+        }
+      }
+    ]
+  });
 
   const onSubmit = (data: IFormValues) => {
     createInvite({

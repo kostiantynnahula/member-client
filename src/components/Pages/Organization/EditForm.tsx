@@ -4,13 +4,11 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Organization, Member } from 'utils/models/auth';
 import { UPDATE_ORGANIZATION, ORGANIZATION } from 'queries/organization';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { EditMemberModal } from './EditMemberModal';
-import { InviteModal } from './InviteModal';
 import { DeleteModal } from './DeleteModal';
-import { ORGANIZATION_INVITES } from 'queries/invite';
-import { OrganizationInvitesResponse } from 'utils/models/organization';
+import { Invites } from 'components/Pages/Organization/Invites';
 
 export interface IProps {
   organization: Organization;
@@ -47,15 +45,8 @@ export const EditForm = ({
     ]
   });
 
-  const { data, loading } = useQuery<OrganizationInvitesResponse>(ORGANIZATION_INVITES, {
-    variables: {
-      orgId,
-    }
-  });
-
   const [memberModal, setMemberModal] = useState<boolean>(false);  
   const [editMember, setEditMember] = useState<Member | null>(null);
-  const [inviteModal, setInviteModal] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [deleteMember, setDeleteMember] = useState<Member | null>(null);
 
@@ -105,7 +96,6 @@ export const EditForm = ({
     handleSubmit,
     handleChange,
     handleBlur,
-    setFieldValue,
     resetForm,
     values,
     errors,
@@ -180,23 +170,12 @@ export const EditForm = ({
         </Form.Group>
       </Form>
       <hr/>
-      <div>
-        <h3>Invites</h3>
-        <p className='text-center'>Invites list is empty</p>
-        <Button   
-          variant='outline-primary'
-          onClick={() => setInviteModal(true)}
-        >Invite new</Button>
-      </div>
+      <Invites/>
       <EditMemberModal
         show={memberModal}
         setShow={setMemberModal}
         member={editMember}
         handleEditMember={handleEditMember}
-      />
-      <InviteModal
-        show={inviteModal}
-        setShow={setInviteModal}
       />
       <DeleteModal
         show={deleteModal}
