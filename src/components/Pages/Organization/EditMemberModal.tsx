@@ -38,7 +38,6 @@ export const EditMemberModal = ({
   const {
     handleSubmit,
     handleChange,
-    resetForm,
     values,
   } = useFormik({
     onSubmit,
@@ -78,8 +77,8 @@ export const EditMemberModal = ({
               value={values.role}
               onChange={handleChange}
             >
-              <option value='creator'>Creator</option>
-              <option value='member'>Member</option>
+              <option value='ADMIN'>Admin</option>
+              <option value='MEMBER'>Member</option>
             </Form.Select>
           </Form.Group>
         </Modal.Body>

@@ -3,7 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Organization, Member } from 'utils/models/auth';
-import { UPDATE_ORGANIZATION, ORGANIZATION } from 'queries/organization';
+import { UPDATE_ORGANIZATION, ORGANIZATION, UPDATE_MEMBER } from 'queries/organization';
 import { useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { EditMemberModal } from './EditMemberModal';
@@ -45,6 +45,17 @@ export const EditForm = ({
     ]
   });
 
+  const [updateMember] = useMutation(UPDATE_MEMBER, {
+    refetchQueries: [
+      {
+        query: ORGANIZATION,
+        variables: {
+          id: orgId
+        }
+      }
+    ]
+  });
+
   const [memberModal, setMemberModal] = useState<boolean>(false);  
   const [editMember, setEditMember] = useState<Member | null>(null);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
@@ -61,7 +72,15 @@ export const EditForm = ({
   };
 
   const handleEditMember = (member: Member) => {
-    console.log(member, 'handle edit member');
+    updateMember({
+      variables: {
+        editMemberInput: {
+          organizationId: orgId,
+          memberId: member._id,
+          role: member.role,
+        }
+      }
+    }).then(() => setMemberModal(false));
   }
 
   const handleDeleteMember = () => {

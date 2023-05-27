@@ -39,7 +39,8 @@ export const Navbar = () => {
           <Nav className="justify-content-end">
             <NavDropdown title="Organization">
               {data?.organizations.map(organization => (
-                <NavDropdown.Item 
+                <NavDropdown.Item
+                  key={organization._id} 
                   as={Link} 
                   to={`/organization/${organization._id}`}
                 >{organization.name}</NavDropdown.Item>  

@@ -50,4 +50,12 @@ export const UPDATE_ORGANIZATION = gql`
       description
     }
   }
+`;
+
+export const UPDATE_MEMBER = gql`
+  mutation updateMember($editMemberInput: MemberEditInput!) {
+    editMember(editMemberInput: $editMemberInput) {
+      _id
+    }
+  } 
 `
