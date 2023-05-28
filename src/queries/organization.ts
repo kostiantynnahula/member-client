@@ -58,4 +58,12 @@ export const UPDATE_MEMBER = gql`
       _id
     }
   } 
-`
+`;
+
+export const DELETE_MEMBER = gql`
+  mutation deleteMember($deleteMemberInput: MemberDeleteInput!) {
+    deleteMember(deleteMemberInput: $deleteMemberInput) {
+      _id
+    }
+  }
+`;
