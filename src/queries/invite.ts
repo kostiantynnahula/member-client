@@ -21,3 +21,11 @@ export const ORGANIZATION_INVITES = gql`
     }
   }
 `;
+
+export const APPROVE_INVITE = gql`
+  mutation approveInvite($approveInvite: ApproveInviteInput!) {
+    approveInvite(approveInvite: $approveInvite) {
+      _id
+    }
+  }
+`;

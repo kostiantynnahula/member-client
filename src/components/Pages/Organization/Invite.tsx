@@ -3,6 +3,9 @@ import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useParams } from 'react-router-dom';
+import { APPROVE_INVITE } from 'queries/invite';
+import { useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 
 interface IFormValues {
   secret: string;
@@ -20,8 +23,24 @@ export const Invite = () => {
     secret: yup.string().required(),
   });
 
-  const onSubmit = (data: IFormValues) => {
-    console.log('on submit');
+  const navigate = useNavigate();
+
+  const [approveInvite] = useMutation(APPROVE_INVITE);
+
+  const onSubmit = async (data: IFormValues) => {
+    const { secret } = data;
+    approveInvite({
+      variables: {
+        approveInvite: {
+          secret,
+          token,
+        }
+      }
+    });
+
+    console.log('use navigate');
+
+    navigate('/');
   }
 
   const {
@@ -63,7 +82,7 @@ export const Invite = () => {
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group>
-          <Button variant='outline-primary'>Submit</Button>
+          <Button variant='outline-primary' type='submit'>Submit</Button>
         </Form.Group>
       </Form>
     </div>
